@@ -76,28 +76,37 @@ const FORGE = {
       ],
       binder:['Mission Brief (printed)','Mission 0 calendar','“1791 → Today” timeline','Case log (what happened / warning signs / what changed)','Camp A / Camp B sheet + his verdict','Solution Project','IFAK research + pricing','Readiness Board result + AAR'] },
 
-    { id:'oct', short:'Oct', name:'October 2026', start:'2026-10-01', end:'2026-10-31',
-      theme:'Real Estate 101', op:null, virtue:'Prudence', verse:'Proverbs 21:5', verseText:'“The plans of the diligent lead surely to abundance.”', brief:false, kind:null,
-      intent:'Rich men own the dirt — and Dad has a real deal running RIGHT NOW that Alex gets to watch from the inside.',
-      book:null, bookNote:'No book named for October in the brief',
-      field:[{t:'Field Day — “Drive-the-deals”', d:null, dl:'Week 3 · date TBD', note:'Windshield tour of his 3 candidate houses + comps; curb reads like an appraiser.'}],
-      challenge:{ name:'The Deal Board', due:'2026-10-31',
-        desc:'Formal presentation of his 3-house analysis — the winner, the numbers, the risks — and his answer to “Would you put your own flip money into this deal? Why or why not?” Family Q&amp;A after.',
-        bonus:'One page on “What I’d look for in EarTuff’s building” — and Dad actually reads it before buying.',
-        incentive:null },
+    { id:'oct', short:'Oct', name:'October 2026', start:'2026-10-01', end:'2026-11-01',
+      theme:'Real Estate 101', op:'Operation Own the Dirt', virtue:'Prudence', verse:'Proverbs 21:5', verseText:'“The plans of the diligent lead surely to abundance, but everyone who is hasty comes only to poverty.”', brief:true, kind:null,
+      intent:'Rich men own the dirt. Most people spend their whole lives paying rent to somebody who did the math — this month you learn to be the one who did the math.',
+      book:'1984', author:'George Orwell', bookDue:'2026-10-15', bookNext:'The ABCs of Real Estate Investing (Ken McElroy)',
+      bookNote:'Finish NLT Thu Oct 15 (~17 pages a day) · discussion Fri Oct 16 with Dad, Abuelo &amp; Abuela (3 takeaways + 1 question) · next read: The ABCs of Real Estate Investing (Ken McElroy), no deadline',
+      field:[{t:'Field Day — DEAL or NO DEAL', d:'2026-11-01', note:'Confirmed for Sun Nov 1. A real FMLS listing picked with Dad by Mon Oct 26. Go see it: area, condition, rehab estimate — then run the numbers and make the call.'}],
+      challenge:{ name:'Field Day — DEAL or NO DEAL', due:'2026-11-01',
+        desc:'Pass every one: (1) area notes · (2) condition + rehab checklist, roof to foundation, with a dollar estimate · (3) 3+ recent sold comps with an adjusted value · (4) the numbers on YOUR calculator, with the max offer · (5) the verdict, DEAL or NO DEAL, defended — “Would you put your own flip money into this? Why or why not?”',
+        incentive:'Pass = Dad sets the reward' },
+      hacks:[
+        {d:'2026-10-08', t:'Mission 0 — brief your Oct 7 – Nov 1 calendar to Dad (night)'},
+        {d:'2026-10-12', t:'Brief #1 — How Real Estate Works'},
+        {d:'2026-10-15', t:'1984 finished (NLT 15 Oct)'},
+        {d:'2026-10-16', t:'Brief #2 — How to Comp Properties + 1984 discussion with Dad, Abuelo, Abuela'},
+        {d:'2026-10-23', t:'Brief #3 — How to Run the Numbers + deal calculator'},
+        {d:'2026-10-26', t:'Field Day listing picked on FMLS, with Dad'},
+        {d:'2026-10-30', t:'Brief #4 — the go-in brief for the Field Day'},
+        {d:'2026-11-01', t:'🏁 Field Day — DEAL or NO DEAL', big:true}
+      ],
       missions:[
-        {id:'oct-m0', t:'Mission 0 — Own Your Calendar', d:'Build the month schedule against every deadline and brief it to Dad within 1–2 days of receiving the Mission Brief.', tag:'Waiting on brief'},
-        {id:'oct-w1', t:'Week 1 — How property makes money', d:'Four levers (cash flow, appreciation, loan paydown, leverage); rent-vs-own math; vocabulary. 5 Dad-vetted videos → his own “how a rental makes money” one-pager.', bb:'The four ways a property pays you.'},
-        {id:'oct-w2', t:'Week 2 — Underwriting', d:'Build his own deal calculator in a spreadsheet (price, down payment, loan payment, rent, taxes/insurance/repairs → monthly cash flow). Run Dad’s REAL numbers plus one deliberately bad deal — “the calculator’s job is to say NO.”', bb:'This deal makes/loses $X a month, and here’s the line item that decides it.'},
-        {id:'oct-w3', t:'Week 3 — Deal hunting', d:'Location, comps, what creates value, red flags (foundation, roof, flood zone). Underwrite 3 real Zillow listings, rank them, pick a winner. Field Day: Drive-the-deals.', bb:'Top pick defended with numbers.'},
-        {id:'oct-w4', t:'Week 4 — The EarTuff HQ case study (live deal)', d:'Dad is buying EarTuff’s HQ with an SBA loan: why owners buy their buildings, how SBA lending works, the real lender package, what the building must DO to earn its keep. If timing allows, walk a candidate property with his calculator.'},
-        {id:'oct-ch', t:'🏁 The Deal Board', d:'3-house analysis presented formally + “Would you put your own flip money in?” + family Q&amp;A.', due:'2026-10-31'},
-        {id:'oct-bonus', t:'Bonus with teeth — EarTuff building memo', d:'One page: “What I’d look for in EarTuff’s building.” Dad reads it before buying.', due:'2026-10-31'}
+        {id:'oct-m0', t:'Mission 0 — Own Your Calendar', d:'Brief YOUR Oct 7 – Nov 1 calendar to Dad Thursday night: 1984 pages mapped to Oct 15, both boxing sessions every week, every lesson, each brief, and the Field Day prep.', due:'2026-10-08'},
+        {id:'oct-b1', t:'Mission 1 — Brief #1: How Real Estate Works', d:'The players and what each gets paid for · how a sale happens, offer to closing · the four ways property makes money (cash flow, appreciation, loan paydown, leverage), all found inside Dad’s AirBnB. Project: one-page “How Real Estate Works” sheet.', bb:'5 minutes standing — Dad’s AirBnB as the case.', due:'2026-10-12'},
+        {id:'oct-1984', t:'Book — 1984 finished', d:'Last page read NLT Thu Oct 15. Discussion Fri Oct 16, right after Brief #2, with Dad, Abuelo &amp; Abuela — 3 takeaways + 1 question. “In Orwell’s world, who owns anything?”', due:'2026-10-15'},
+        {id:'oct-b2', t:'Mission 2 — Brief #2: How to Comp Properties', d:'One real house picked with Dad: 3–5 recent SOLD comps, adjusted for size, beds/baths, condition, lot and street, one value defended. Project: one-page comp sheet.', due:'2026-10-16'},
+        {id:'oct-b3', t:'Mission 3 — Brief #3: How to Run the Numbers', d:'Your deal calculator in a spreadsheet: fix ’n’ flip, wholesale and buy ’n’ hold · max offer · line-by-line rehab costs · two test runs — Dad’s real AirBnB numbers and one deliberately bad deal. The calculator’s job is to say NO.', due:'2026-10-23'},
+        {id:'oct-fd', t:'🏁 Mission 4 — Field Day: DEAL or NO DEAL', d:'Listing picked on FMLS with Dad by Mon Oct 26 · Brief #4, the go-in brief, Fri Oct 30 (Saturday is your buffer) · Sun Nov 1: area, condition, rehab estimate, the numbers, and your call.', due:'2026-11-01'}
       ],
       season:'GA deer season opened mid-October — opening-weekend hunts with Dad are bonus weekends (hunting is a lifestyle, not a unit; the full Outdoorsman month is February).',
-      binder:['Mission Brief (printed)','Mission 0 calendar','Watch-list notes (5 videos) + action steps','“How a rental makes money” one-pager','Deal calculator printout (Dad’s deal + the bad deal)','3-listing analysis + ranking','EarTuff building memo (bonus)','Deal Board result + AAR'] },
+      binder:['Mission Brief (printed)','Mission 0 calendar','Watch-list notes (Module 2) + action steps','“How Real Estate Works” one-pager','Comp sheet (Brief #2)','Deal calculator printout (AirBnB + the bad deal)','1984 discussion notes','Field Day checklist, numbers + verdict','Field Day result + AAR'] },
 
-    { id:'nov', short:'Nov', name:'November 2026', start:'2026-11-01', end:'2026-11-30',
+    { id:'nov', short:'Nov', name:'November 2026', start:'2026-11-02', end:'2026-11-30',
       theme:'The Power of Giving', op:null, virtue:'Generosity', verse:'Proverbs 11:24–25 + Luke 6:38', brief:false, kind:null,
       book:'The Go-Giver', author:'Bob Burg', bookNote:'The Five Laws — one per backbrief',
       field:[{t:'Field Day — Execution under HIS command', d:null, dl:'Thanksgiving week', note:'“Dad is a rifleman, not the commander.” Then AAR + Thanksgiving-table backbrief.'}],
@@ -184,6 +193,44 @@ const FORGE = {
         {id:'may-3', t:'The Man Weekend', d:'He plans logistics, budget, route, food, gear; navigates, builds camp, cooks, runs the safety brief.'}
       ],
       binder:['Mission Brief (printed)','Mission 0 calendar','Business plan','Man Weekend plan + budget','Year in numbers','Year-End Board result','Dad’s letter'] }
+  ],
+
+  /* ---------- the exact course videos (from the printed Mission Brief) ----------
+     Links open the lesson on Dad's course login. NEVER put a username or password here — this page is public. */
+  watch: {
+    from:'2026-10-07', to:'2026-11-01',
+    course:'Astro Accelerator 2.0', module:'Module 2 — REI Foundations',
+    base:'https://www.astroaccelerator.com/products/the-astro-accelerator-2-0-2/categories/2150125673/posts/',
+    weeks:{1:'Week 1 — How Real Estate Works · Brief #1 Mon Oct 12', 2:'Week 2 — How to Comp · Brief #2 Fri Oct 16', 3:'Week 3 — How to Run the Numbers · Brief #3 Fri Oct 23', 4:'Week 4 — the Field Day · Sun Nov 1'},
+    list:[
+      {n:1, t:"Module 2 Overview", post:'2157027062', due:'2026-10-08', wk:1, act:"Shared page with #2. The 3 things Module 2 promises to teach, and the 1 you need most for the Field Day"},
+      {n:2, t:"The Regular Crew", post:'2157027063', due:'2026-10-08', wk:1, act:"Shared page with #1. Every player in a deal and what each gets paid for. Ask Dad who was on his AirBnB deal"},
+      {n:3, t:"Timeline of a Standard Sale", post:'2157027064', due:'2026-10-09', wk:1, act:"Draw the timeline. Mark where Dad\u2019s AirBnB purchase hit each step"},
+      {n:4, t:"The Wholesale Process", post:'2157027065', due:'2026-10-10', wk:1, act:"Shared page with #5. Draw the wholesale timeline under the standard one"},
+      {n:5, t:"Timeline of a Wholesaler", post:'2157027066', due:'2026-10-10', wk:1, act:"Shared page with #4. Circle where the wholesaler makes money and where he carries risk"},
+      {n:6, t:"What To Expect As an Entrepreneur", post:'2157027146', due:'2026-10-10', wk:1, act:"3 points that match your reselling business and 1 you disagree with. Tell Dad why"},
+      {n:7, t:"Funding Types", post:'2157027067', due:'2026-10-11', wk:1, act:"Shared page with #8. Table: funding type, who lends, what it costs, when it\u2019s used. Ask Dad how he funded the AirBnB"},
+      {n:8, t:"Connecting With Hard Money Lender", post:'2157027068', due:'2026-10-11', wk:1, act:"Shared page with #7. One line: why hard money fits a flip but not a 30-year rental"},
+      {n:9, t:"Types of Deeds", post:'2157027069', due:'2026-10-11', wk:1, act:"Explain to Abuelo, in under 3 minutes, which deed you\u2019d want when you buy, and why"},
+      {n:10, t:"Real Estate Lexicon", post:'2157027070', due:'2026-10-12', wk:1, act:"Vocab card in your own words. Dad quizzes 10 cold"},
+      {n:11, t:"REI Spectrum", post:'2157027071', due:'2026-10-12', wk:1, act:"Draw the spectrum. Mark Dad\u2019s AirBnB, a flip, and a wholesale deal, and which pay monthly vs. once"},
+      {n:12, t:"Where Do Good Deals Come From?", post:'2157027072', due:'2026-10-13', wk:2, act:"Shared page with #13. List the deal sources"},
+      {n:13, t:"Recognizing the Deal", post:'2157027073', due:'2026-10-13', wk:2, act:"Shared page with #12. Write your 5-point \"might be a deal\" screen. You\u2019ll use it to pick your FMLS listing"},
+      {n:14, t:"Mindset Blunders In Real Estate", post:'2157027074', due:'2026-10-13', wk:2, act:"The blunder you\u2019re most likely to make, and the one rule that guards against it"},
+      {n:20, t:"Pricing Properties (Buy Side)", post:'2157027078', due:'2026-10-14', wk:2, act:"How a buyer prices a house, in 5 lines. Keep it for your max offer in Week 3"},
+      {n:21, t:"Comping Properties", post:'2157027079', due:'2026-10-14', wk:2, act:"Shared page with #22. Comp your Brief #2 house: 3\u20135 sold comps, adjusted, one value. Show Dad your work"},
+      {n:22, t:"Comping Multi Family Properties", post:'2157027080', due:'2026-10-14', wk:2, act:"Shared page with #21. One paragraph: how comping a duplex is different"},
+      {n:17, t:"Running Fix 'n' Flip Numbers", post:'2157027075', due:'2026-10-19', wk:3, act:"Build the flip tab with a rehab line. Run your August Fix & Flip through it"},
+      {n:18, t:"Running Wholesale Numbers", post:'2157027076', due:'2026-10-20', wk:3, act:"Build the wholesale tab. One paragraph: why a wholesaler\u2019s number and a flipper\u2019s aren\u2019t the same"},
+      {n:19, t:"Running Buy 'n' Hold Numbers", post:'2157027077', due:'2026-10-21', wk:3, act:"Build the buy \u2019n\u2019 hold tab. Run Dad\u2019s real AirBnB numbers through it"},
+      {n:23, t:"Foundation of Abundance", post:'2157027082', due:'2026-10-30', wk:4, act:"One page: this lesson set next to Proverbs 21:5. Bring it to your go-in brief"},
+    ]
+  },
+
+  /* ---------- dated daily items (shown only between from/to; replace the matching daily task) ---------- */
+  dailyExtras: [
+    {id:'read1984', t:'1984 Reading (~17 pages)', s:'Finish NLT Thu Oct 15 — the deadline does not move', from:'2026-10-06', to:'2026-10-15', replaces:'read'},
+    {id:'fieldday', t:'🏁 Field Day — DEAL or NO DEAL', s:'Area · condition + rehab estimate · comps · your numbers · your call', from:'2026-11-01', to:'2026-11-01', top:true}
   ],
 
   /* ---------- Section 2: the operating system ---------- */
@@ -1455,6 +1502,74 @@ footer{text-align:center}
   .btn.dedit{order:5}
 }
 @media print{.dbtn,.undo,.btn.dedit{display:none}}
+/* ================= v4: exact course videos, weekly goals, time hacks ================= */
+.dt.vid .dtx b{font-size:15.5px}
+.dtx .vopen,.wl-r .vopen{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);color:var(--brand);font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;vertical-align:middle}
+.dtx .vopen:hover,.wl-r .vopen:hover{background:rgba(255,106,26,.12)}
+.dtx .vnote{font-style:normal;color:var(--muted);font-size:12px;white-space:nowrap}
+.dtx .ovd-d{font-style:normal;color:var(--brand);font-size:12px;font-weight:600;margin-right:4px;white-space:nowrap}
+.dt.ovd{background:linear-gradient(90deg,rgba(255,106,26,.10),transparent 70%);border-radius:10px;padding-left:8px;margin:2px 0}
+.dt.ovd .dbtn{border-color:color-mix(in srgb,var(--brand) 60%,transparent)}
+.ovtag{font-style:normal;font-family:var(--cond);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1a0d04;background:var(--g-brand);padding:1px 7px;border-radius:5px;font-weight:600;margin-right:2px}
+.ovtag+*{margin-left:2px}
+.dt.ovd .dtx span{color:var(--brand)}
+.dt.ovd .dtx .vnote{color:var(--muted)}
+.wkc{font-style:normal;font-size:12px;font-weight:700;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--glass-3);color:var(--text-2);vertical-align:2px;text-decoration:none;display:inline-block}
+.wkc.ok{background:var(--brass-bg);color:var(--brass-2)}
+.dt.done .dtx b .wkc{text-decoration:none}
+.dt.wkly.met .dtx b{text-decoration:none}
+/* this week's videos (compact) */
+.wkv{margin-top:16px;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--glass-2);display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap}
+.wkv-h{display:flex;align-items:center;gap:10px;flex:none}
+.wkv-h b{font-family:var(--cond);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);font-weight:500}
+.wkv-n{font-family:var(--cond);font-size:18px;font-weight:700;color:var(--brand)}
+.wkv-h .heat{width:70px;height:6px}
+.wkv-d{display:flex;flex-wrap:wrap;gap:8px 16px;flex:1;min-width:0}
+.wkv-g{display:flex;align-items:center;gap:5px}
+.wkv-day{font-size:12px;font-weight:700;color:var(--muted);margin-right:2px;white-space:nowrap}
+.wkv-g.today .wkv-day{color:var(--brand)}
+.wkv-p{height:26px;min-width:34px;padding:0 8px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--text-2);font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:3px;font-family:var(--font)}
+.wkv-p svg{width:11px;height:11px}
+.wkv-p:hover{border-color:var(--brass);color:var(--brass-2)}
+.wkv-p.on{background:var(--brass-bg);border-color:color-mix(in srgb,var(--brass) 50%,transparent);color:var(--brass-2)}
+:root[data-theme="light"] .wkv-p.on{color:var(--brass)}
+.wkv-p.late{border-color:var(--brand);color:var(--brand)}
+/* time hacks card */
+.hk h3 span{font-family:var(--font);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-left:6px}
+.hk-r{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.4}
+.hk-r b{color:var(--brand);font-weight:700;white-space:nowrap}
+.hk-r span{color:var(--text)}
+.hk-r.past{opacity:.45}
+.hk-r.next{background:rgba(255,106,26,.08);border-radius:8px;padding-left:6px;padding-right:6px}
+.hk-r.big span{font-weight:700}
+/* watch list card */
+.card.wl{margin-top:18px;padding:20px 22px}
+.wl-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.wl-h h3{margin:0;font-size:17px}
+.wl-h .pill{margin-left:auto}
+.wl-note{font-size:13px;color:var(--text-2);margin:6px 0 4px}
+.wl-wk{margin-top:14px;padding:6px 0;font-family:var(--cond);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-2);border-bottom:1px solid var(--line)}
+:root[data-theme="light"] .wl-wk{color:var(--brass)}
+.wl-r{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.wl-r .check{flex:none}
+.wl-t{flex:1;min-width:0}
+.wl-t b{display:block;font-size:14px;font-weight:650}
+.wl-t span{display:block;font-size:12px;color:var(--muted);margin-top:1px;line-height:1.35}
+.wl-r.on .wl-t b{color:var(--text-2);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--brass) 70%,transparent)}
+.wl-d{font-size:12px;font-weight:700;color:var(--text-2);white-space:nowrap}
+.wl-d.now{color:var(--brand)}
+.wl-d.late{color:var(--brand)}
+@media (max-width:640px){
+  .wkv{padding:10px 12px;gap:8px}
+  .wkv-h{width:100%}
+  .wkv-h .heat{flex:1;width:auto}
+  .wkv-d{gap:8px 12px}
+  .wl-r{flex-wrap:wrap;gap:6px 10px}
+  .wl-t{flex-basis:calc(100% - 50px)}
+  .wl-d{margin-left:42px}
+  .card.wl{padding:16px 14px}
+}
+@media print{.wkv-p,.vopen{border:0}}
 </style>
 </head>
 <body>
@@ -1585,10 +1700,13 @@ function sideTarget(){
 }
 
 
-/* ---------- DAILY CHECKLIST (saved in forge_v1.daily; resets each local calendar day) ---------- */
+/* ---------- DAILY CHECKLIST (saved in forge_v1.daily; resets each local calendar day) ----------
+   Course videos: ticks live in forge_v1.vids {lessonId: ISO time} — permanent, never reset.
+   Weekly goals (Boxing): ticks live in forge_v1.daily.hist[day].wk — they do not count toward the daily total. */
 const DAILY_DEFAULT=[
   {id:'luoa',     t:'LUOA assignments complete', s:'9am–12pm',                                   days:[1,2,3,4,5]},
-  {id:'workout',  t:'Workout',                   s:'Boxing / run / gym',                          days:[0,1,2,3,4,5,6]},
+  {id:'workout',  t:'Workout',                   s:'Run / gym / conditioning',                    days:[0,1,2,3,4,5,6]},
+  {id:'boxing',   t:'Boxing',                    s:'Goal: 2 sessions a week',                     days:[0,1,2,3,4,5,6], weekly:2},
   {id:'mission',  t:'Curriculum mission block',  s:'Afternoon, 1–2 hrs',                          days:[1,2,3,4,5]},
   {id:'watch',    t:'Watch List: 1 video',       s:'1 page of notes + action step shown to Dad',  days:[1,2,3,4,5]},
   {id:'read',     t:'Read today’s pages',        s:'{book}',                                      days:[0,1,2,3,4,5,6]},
@@ -1599,22 +1717,93 @@ const DAILY_DEFAULT=[
 const DOW=['S','M','T','W','T','F','S'], DOWL=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 if(!S.daily) S.daily={};
 if(!S.daily.hist) S.daily.hist={};
+if(!S.vids) S.vids={};
+/* one-time: add Boxing to a task list that was already customized in the editor */
+if(S.daily.tasks&&S.daily.tasks.length&&!S.daily.migBox){
+  if(!S.daily.tasks.some(t=>t.id==='boxing')){ const i=S.daily.tasks.findIndex(t=>t.id==='workout'); S.daily.tasks.splice(i<0?S.daily.tasks.length:i+1,0,JSON.parse(JSON.stringify(DAILY_DEFAULT[2]))); }
+  S.daily.migBox=1; save();
+}
 const dkey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const dTasks = () => (S.daily.tasks&&S.daily.tasks.length?S.daily.tasks:DAILY_DEFAULT);
 const todaysTasks = () => dTasks().filter(t=>t.days.indexOf(today().getDay())>=0);
 const fmtTime = iso => new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-function dSub(x){ const c=curMonth(); return x.replace('{book}',c.book?c.book:'This month’s reading').replace('{verse}',c.verse+(c.verseText?' — '+c.verseText:'')); }
+function curBook(c){ if(!c.book) return 'This month’s reading'; if(c.bookDue&&c.bookNext&&dkey(today())>c.bookDue) return c.bookNext; return c.book; }
+function dSub(x){ const c=curMonth(); return x.replace('{book}',curBook(c)).replace('{verse}',c.verse+(c.verseText?' — '+c.verseText:'')); }
 function dayRec(k){ return S.daily.hist[k]||{done:{},n:0}; }
-function saveDay(){ const k=dkey(today()), r=dayRec(k), ids=todaysTasks().map(t=>t.id); Object.keys(r.done).forEach(id=>{ if(ids.indexOf(id)<0) delete r.done[id]; }); r.n=ids.length; S.daily.hist[k]=r; save(); }
+
+/* ---- course videos ---- */
+const WL=F.watch||{list:[]};
+const VID=(WL.list||[]).map((v,i)=>Object.assign({id:'m2-'+String(v.n).padStart(2,'0'),url:WL.base+v.post,ord:i},v));
+const vById=id=>VID.find(v=>v.id===id);
+const vLabel=v=>`Module 2 #${v.n} – ${v.t}`;
+const vDay=v=>S.vids[v.id]?dkey(new Date(S.vids[v.id])):null;
+const isWatch=t=>t.id==='watch'||/watch/i.test(t.t);
+const replMatch=(t,e)=>t.id===e.replaces||(e.replaces==='read'&&/\bread/i.test(t.t));
+function weekRange(){ const t0=today(), s=new Date(t0); s.setDate(t0.getDate()-t0.getDay()); const out=[]; for(let i=0;i<7;i++){ const d=new Date(s); d.setDate(s.getDate()+i); out.push(d); } return out; }
+function weekCount(id){ return weekRange().filter(d=>{ const r=S.daily.hist[dkey(d)]; return r&&r.wk&&r.wk[id]; }).length; }
+
+/* today's list = regular tasks (+ dated extras like 1984) + exact videos (overdue first) ; weekly goals kept separate */
+function dayModel(){
+  const t=today(), k=dkey(t), r=dayRec(k); if(!r.done) r.done={};
+  let base=todaysTasks();
+  const weekly=base.filter(x=>x.weekly>0); base=base.filter(x=>!(x.weekly>0));
+  const overdue=VID.filter(v=>v.due<k&&!S.vids[v.id]);
+  const todays=VID.filter(v=>v.due===k||(S.vids[v.id]&&vDay(v)===k));
+  const vmode=(WL.from&&k>=WL.from&&k<=WL.to)||overdue.length||todays.length;
+  const ex=(F.dailyExtras||[]).filter(e=>k>=e.from&&k<=e.to), used=new Set();
+  const items=[]; let slot=-1;
+  const task=x=>({kind:'task',id:x.id,t:x.t,s:dSub(x.s||''),done:r.done[x.id]||null});
+  base.forEach(x=>{
+    if(vmode&&isWatch(x)){ if(slot<0) slot=items.length; return; }
+    const e=ex.find(e=>replMatch(x,e));
+    if(e){ if(!used.has(e.id)){ used.add(e.id); items.push(task(e)); } return; }
+    items.push(task(x));
+  });
+  ex.filter(e=>!used.has(e.id)&&!e.top).forEach(e=>items.push(task(e)));
+  const vi=v=>({kind:'vid',id:'vid:'+v.id,v,done:S.vids[v.id]||null,overdue:!S.vids[v.id]&&v.due<k,early:S.vids[v.id]&&vDay(v)!==k});
+  if(slot<0) slot=0; /* no generic watch task today (e.g. weekends): videos lead the list */
+  items.splice(slot,0,...todays.map(vi));
+  items.unshift(...overdue.map(vi));
+  items.unshift(...ex.filter(e=>e.top).map(task));
+  const wk=(r.wk)||{};
+  return {k,r,items,weekly:weekly.map(x=>({id:x.id,t:x.t,s:x.s,goal:x.weekly,count:weekCount(x.id),today:wk[x.id]||null}))};
+}
+function saveDay(){ const m=dayModel(), r=m.r, ids=new Set(m.items.map(i=>i.id));
+  Object.keys(r.done).forEach(id=>{ if(!ids.has(id)) delete r.done[id]; });
+  m.items.forEach(i=>{ if(i.kind==='vid'){ if(i.done) r.done[i.id]=i.done; else delete r.done[i.id]; } });
+  r.n=m.items.length; S.daily.hist[m.k]=r; save(); }
 const dayComplete = r => r && r.n>0 && Object.keys(r.done).length>=r.n;
 function streak(){ let n=0; const d=today(); if(!dayComplete(S.daily.hist[dkey(d)])) d.setDate(d.getDate()-1);
   for(let i=0;i<400;i++){ const w=d.getDay(); if(w!==0&&w!==6){ if(dayComplete(S.daily.hist[dkey(d)])) n++; else break; } d.setDate(d.getDate()-1); } return n; }
 let dEditing=false, dJust=null;
 function dailyCard(){ return `<div class="card daily" id="daily"></div>`; }
+function vidSub(i){ const v=i.v, d=parseD(v.due); return `${i.overdue?`<em class="ovtag">Overdue</em> <i class="ovd-d">due ${DOWL[d.getDay()]} ${d.getMonth()+1}/${d.getDate()}</i> `:''}<a class="vopen" href="${esc(v.url)}" target="_blank" rel="noopener" title="${esc(v.act)}">Open ↗</a> <i class="vnote">opens on Dad’s login</i>`; }
+function todoRow(i){
+  if(i.kind==='vid') return `<div class="dt vid ${i.overdue?'ovd':''}" data-dt="${i.id}"><button class="dbtn" type="button" data-dcomp="${i.id}" aria-label="Done: ${esc(vLabel(i.v))}">${CHECK}</button><div class="dtx"><b>${esc(vLabel(i.v))}</b><span>${vidSub(i)}</span></div></div>`;
+  return `<div class="dt" data-dt="${i.id}"><button class="dbtn" type="button" data-dcomp="${i.id}" aria-label="Complete ${esc(i.t)}">${CHECK}</button><div class="dtx"><b>${esc(i.t)}</b>${i.s?`<span>${esc(i.s)}</span>`:''}</div></div>`;
+}
+function doneRow(i){
+  const t=i.kind==='vid'?vLabel(i.v):i.t, when=i.early?`Done ahead · ${DOWL[new Date(i.done).getDay()]} ${fmtTime(i.done)}`:`Done ${fmtTime(i.done)}`;
+  return `<div class="dt done ${i.kind==='vid'?'vid':''} ${dJust===i.id?'arrive':''}"><div class="dchk">${CHECK}</div><div class="dtx"><b>${esc(t)}</b><span>${when}</span></div><button class="undo" type="button" data-dundo="${i.id}" title="Undo">Undo</button></div>`;
+}
+function wkTodo(w){ return `<div class="dt wkly" data-dt="${w.id}"><button class="dbtn" type="button" data-dwk="${w.id}" aria-label="Log ${esc(w.t)} today">${CHECK}</button><div class="dtx"><b>${esc(w.t)} <i class="wkc">${w.count}/${w.goal} this week</i></b><span>Weekly goal · tick it on any day you go</span></div></div>`; }
+function wkDone(w){ const met=w.count>=w.goal;
+  return w.today?`<div class="dt done wkly ${dJust===w.id?'arrive':''}"><div class="dchk">${CHECK}</div><div class="dtx"><b>${esc(w.t)} <i class="wkc ${met?'ok':''}">${w.count}/${w.goal} this week</i></b><span>Done ${fmtTime(w.today)}${met?' · weekly goal met':''}</span></div><button class="undo" type="button" data-dwkundo="${w.id}" title="Undo">Undo</button></div>`
+    :`<div class="dt done wkly met"><div class="dchk">${CHECK}</div><div class="dtx"><b>${esc(w.t)} <i class="wkc ok">${w.count}/${w.goal} this week</i></b><span>Weekly goal met</span></div></div>`; }
+function weekVids(){
+  const wr=weekRange(), a=dkey(wr[0]), b=dkey(wr[6]), k=dkey(today());
+  const L=VID.filter(v=>v.due>=a&&v.due<=b).sort((x,y)=>x.due<y.due?-1:x.due>y.due?1:x.ord-y.ord); if(!L.length) return '';
+  const g=[]; L.forEach(v=>{ let G=g.find(x=>x.d===v.due); if(!G){ G={d:v.due,vs:[]}; g.push(G); } G.vs.push(v); });
+  const n=L.filter(v=>S.vids[v.id]).length;
+  return `<div class="wkv"><div class="wkv-h"><b>This week’s videos</b><span class="wkv-n">${n}/${L.length}</span><div class="heat"><i style="width:${(n/L.length*100).toFixed(0)}%"></i></div></div>
+    <div class="wkv-d">${g.map(G=>{ const d=parseD(G.d); return `<div class="wkv-g ${G.d===k?'today':''}"><span class="wkv-day">${DOWL[d.getDay()]} ${d.getDate()}</span>${G.vs.map(v=>{ const on=!!S.vids[v.id], late=!on&&v.due<k; return `<button type="button" class="wkv-p ${on?'on':''} ${late?'late':''}" data-wv="${v.id}" title="${esc(vLabel(v))}${on?' · done':late?' · overdue':''}" aria-pressed="${on}">${on?CHECK:''}#${v.n}</button>`; }).join('')}</div>`; }).join('')}</div></div>`;
+}
 function renderDaily(){
   const el=$('#daily'); if(!el) return;
-  const k=dkey(today()), r=dayRec(k), tasks=todaysTasks(), todo=tasks.filter(t=>!r.done[t.id]), done=tasks.filter(t=>r.done[t.id]).sort((a,b)=>r.done[a.id]<r.done[b.id]?-1:1);
-  const n=done.length, N=tasks.length, all=N>0&&n===N, st=streak(), wk=today().getDay()===0||today().getDay()===6;
+  if(S.daily.hist[dkey(today())]) saveDay();
+  const m=dayModel(), items=m.items, todo=items.filter(i=>!i.done), done=items.filter(i=>i.done).sort((a,b)=>a.done<b.done?-1:1);
+  const wTodo=m.weekly.filter(w=>!w.today&&w.count<w.goal), wDone=m.weekly.filter(w=>w.today||w.count>=w.goal);
+  const n=done.length, N=items.length, all=N>0&&n===N, st=streak(), wk=today().getDay()===0||today().getDay()===6;
   const dots=[]; const t0=today(); for(let k=0;k<7;k++){ const d=today(); d.setDate(t0.getDate()-t0.getDay()+k); const i=t0.getDay()-k; const fut=i<0; const rr=fut?null:S.daily.hist[dkey(d)], c=dayComplete(rr)?'full':(rr&&Object.keys(rr.done).length?'part':''), w=d.getDay(); dots.push(`<i class="dd7 ${c} ${i===0?'today':''} ${fut?'fut':''} ${w===0||w===6?'we':''}" title="${fmtShort(d)}${c==='full'?' · all done':c==='part'?' · partly done':''}"><span>${DOW[w]}</span></i>`); }
   const nm=curMonth().missions.find(x=>!S.missions[x.id]);
   el.className='card daily'+(all?' complete':'');
@@ -1626,34 +1815,39 @@ function renderDaily(){
       <button class="btn dedit" type="button" data-dact="edit">${dEditing?'Close editor':'Edit tasks'}</button>
     </div>
     ${dEditing?dailyEditor():`<div class="dcols">
-      <div class="dcol"><div class="dcol-h">To Do Today <span>${todo.length}</span></div>
+      <div class="dcol"><div class="dcol-h">To Do Today <span>${todo.length+wTodo.length}</span></div>
         ${all?`<div class="dayok"><div class="dayok-c">${CHECK}</div><b>Day complete</b><span>Every task done. ${st>1?st+'-day streak. ':''}Iron sharpens iron.</span></div>`
-          : todo.length?todo.map(t=>`<div class="dt" data-dt="${t.id}"><button class="dbtn" type="button" data-dcomp="${t.id}" aria-label="Complete ${esc(t.t)}">${CHECK}</button><div class="dtx"><b>${esc(t.t)}</b>${t.s?`<span>${esc(dSub(t.s))}</span>`:''}</div></div>`).join('')
-          : `<div class="un-empty">No tasks set for ${DOWL[today().getDay()]}. Use “Edit tasks” to add some.</div>`}</div>
-      <div class="dcol donec"><div class="dcol-h">Done Today <span>${n}</span></div>
-        ${done.length?done.map(t=>`<div class="dt done ${dJust===t.id?'arrive':''}"><div class="dchk">${CHECK}</div><div class="dtx"><b>${esc(t.t)}</b><span>Done ${fmtTime(r.done[t.id])}</span></div><button class="undo" type="button" data-dundo="${t.id}" title="Undo">Undo</button></div>`).join('')
+          : todo.length?todo.map(todoRow).join('')
+          : `<div class="un-empty">No tasks set for ${DOWL[today().getDay()]}. Use “Edit tasks” to add some.</div>`}
+        ${wTodo.map(wkTodo).join('')}</div>
+      <div class="dcol donec"><div class="dcol-h">Done Today <span>${n+wDone.length}</span></div>
+        ${done.length||wDone.length?done.map(doneRow).join('')+wDone.map(wkDone).join('')
           :`<div class="dempty">Nothing done yet today.</div>`}</div>
-    </div>`}
+    </div>${weekVids()}`}
     ${nm&&!dEditing?`<a class="nextm" href="#current"><span>Next mission</span>${nm.t} →</a>`:''}`;
   dJust=null;
 }
 function dailyEditor(){
   const T=dTasks();
-  return `<div class="ded"><div class="ded-note">Changes save in this browser. Tap the letters to choose days.</div>
+  return `<div class="ded"><div class="ded-note">Changes save in this browser. Tap the letters to choose days. Course videos and dated items (like 1984) fill in automatically.</div>
     ${T.map((t,i)=>`<div class="der">
       <div class="der-mv"><button type="button" data-ed="up" data-i="${i}" ${i===0?'disabled':''} aria-label="Move up">▲</button><button type="button" data-ed="down" data-i="${i}" ${i===T.length-1?'disabled':''} aria-label="Move down">▼</button></div>
       <div class="der-in"><input data-edf="t" data-i="${i}" value="${esc(t.t)}" aria-label="Task name"><input data-edf="s" data-i="${i}" value="${esc(t.s||'')}" placeholder="Detail (optional)" aria-label="Task detail"></div>
       <div class="der-days">${DOW.map((d,w)=>`<button type="button" class="${t.days.indexOf(w)>=0?'on':''}" data-day="${w}" data-i="${i}" title="${DOWL[w]}">${d}</button>`).join('')}</div>
       <button type="button" class="der-x" data-ed="del" data-i="${i}" aria-label="Remove task">✕</button></div>`).join('')}
-    <div class="ded-f"><button class="btn primary" type="button" data-dact="add">＋ Add task</button><button class="btn" type="button" data-dact="reset">Reset to defaults</button><span class="hint">{book} and {verse} fill in this month’s book and verse.</span></div></div>`;
+    <div class="ded-f"><button class="btn primary" type="button" data-dact="add">＋ Add task</button><button class="btn" type="button" data-dact="reset">Reset to defaults</button><span class="hint">{book} and {verse} fill in this month’s book and verse. Boxing is a weekly goal (2 a week).</span></div></div>`;
 }
+function setVid(id,on){ if(on) S.vids[id]=new Date().toISOString(); else delete S.vids[id]; }
 function bindDaily(){
   const el=$('#daily');
-  const editable=()=>{ if(!S.daily.tasks||!S.daily.tasks.length) S.daily.tasks=JSON.parse(JSON.stringify(DAILY_DEFAULT)); return S.daily.tasks; };
+  const editable=()=>{ if(!S.daily.tasks||!S.daily.tasks.length){ S.daily.tasks=JSON.parse(JSON.stringify(DAILY_DEFAULT)); S.daily.migBox=1; } return S.daily.tasks; };
   el.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; const d=b.dataset;
     if(d.dcomp){ const row=b.closest('.dt'); b.classList.add('pop'); row.classList.add('leaving');
-      setTimeout(()=>{ const k=dkey(today()), r=dayRec(k); r.done[d.dcomp]=new Date().toISOString(); S.daily.hist[k]=r; saveDay(); dJust=d.dcomp; renderDaily(); const all=todaysTasks().every(t=>dayRec(k).done[t.id]); toast(all?'Day complete 🔥':'Done ✓'); },380); }
-    else if(d.dundo){ const k=dkey(today()), r=dayRec(k); delete r.done[d.dundo]; S.daily.hist[k]=r; saveDay(); renderDaily(); toast('Moved back to To Do'); }
+      setTimeout(()=>{ const k=dkey(today()), r=dayRec(k); if(!r.done) r.done={}; if(d.dcomp.indexOf('vid:')===0) setVid(d.dcomp.slice(4),true); r.done[d.dcomp]=new Date().toISOString(); S.daily.hist[k]=r; saveDay(); dJust=d.dcomp; renderDaily(); renderWatch(); const m=dayModel(); toast(m.items.length&&m.items.every(i=>i.done)?'Day complete 🔥':'Done ✓'); },380); }
+    else if(d.dundo){ const k=dkey(today()), r=dayRec(k); if(d.dundo.indexOf('vid:')===0) setVid(d.dundo.slice(4),false); delete r.done[d.dundo]; S.daily.hist[k]=r; saveDay(); renderDaily(); renderWatch(); toast('Moved back to To Do'); }
+    else if(d.dwk){ const row=b.closest('.dt'); b.classList.add('pop'); row.classList.add('leaving');
+      setTimeout(()=>{ const k=dkey(today()), r=dayRec(k); r.wk=r.wk||{}; r.wk[d.dwk]=new Date().toISOString(); S.daily.hist[k]=r; save(); dJust=d.dwk; renderDaily(); const w=dayModel().weekly.find(x=>x.id===d.dwk); toast(w&&w.count>=w.goal?w.t+' goal met this week 🥊':w.t+' logged ✓'); },380); }
+    else if(d.dwkundo){ const k=dkey(today()), r=dayRec(k); if(r.wk) delete r.wk[d.dwkundo]; S.daily.hist[k]=r; save(); renderDaily(); toast('Moved back to To Do'); }
     else if(d.dact==='edit'){ dEditing=!dEditing; if(!dEditing) saveDay(); renderDaily(); }
     else if(d.dact==='add'){ const T=editable(); T.push({id:'t'+Date.now(),t:'New task',s:'',days:[1,2,3,4,5]}); save(); renderDaily(); const ins=$$('#daily [data-edf="t"]'); const last=ins[ins.length-1]; if(last){ last.focus(); last.select(); } }
     else if(d.dact==='reset'){ if(!confirm('Reset the daily tasks to the defaults?')) return; delete S.daily.tasks; save(); renderDaily(); }
@@ -1665,6 +1859,16 @@ function bindDaily(){
     else if(d.day!==undefined){ const T=editable(), t=T[+d.i], w=+d.day, j=t.days.indexOf(w); if(j>=0) t.days.splice(j,1); else { t.days.push(w); t.days.sort(); } save(); b.classList.toggle('on'); }
   });
   el.addEventListener('change',e=>{ const t=e.target; if(t.dataset.edf===undefined) return; const T=editable(); T[+t.dataset.i][t.dataset.edf]=t.value.trim()||(t.dataset.edf==='t'?'Untitled task':''); save(); });
+}
+/* ---------- Watch List (This Month tab) ---------- */
+function watchCard(c){ if(!VID.length||!(c.start<=WL.to&&c.end>=WL.from)) return ''; return `<div class="card wl" id="wlCard"></div>`; }
+function renderWatch(){
+  const el=$('#wlCard'); if(!el) return; const k=dkey(today()), n=VID.filter(v=>S.vids[v.id]).length;
+  const wks=[]; VID.forEach(v=>{ let G=wks.find(x=>x.w===v.wk); if(!G){ G={w:v.wk,vs:[]}; wks.push(G); } G.vs.push(v); });
+  el.innerHTML=`<div class="wl-h"><h3>🎬 Watch List — ${esc(WL.course)} · ${esc(WL.module)}</h3><span class="pill neutral">${n} / ${VID.length} done</span></div>
+    <p class="wl-note">Every link opens the lesson on Dad’s course login. Watch-List law: one page of notes per lesson + the action step shown to Dad, or it didn’t count.</p>
+    ${wks.map(G=>`<div class="wl-wk">${esc((WL.weeks||{})[G.w]||'Week '+G.w)}</div>${G.vs.map(v=>{ const on=!!S.vids[v.id], late=!on&&v.due<k;
+      return `<div class="wl-r ${on?'on':''}"><button class="check ${on?'done':''}" type="button" data-wv="${v.id}" aria-label="Toggle done" title="Toggle done">${CHECK}</button><div class="wl-t"><b>#${v.n} · ${esc(v.t)}</b><span>${esc(v.act)}</span></div><span class="wl-d ${late?'late':''} ${v.due===k?'now':''}">${late?'Overdue · ':''}${esc(fmtShort(parseD(v.due)))}</span><a class="vopen" href="${esc(v.url)}" target="_blank" rel="noopener">Open ↗</a></div>`; }).join('')}`).join('')}`;
 }
 /* ---------- OVERVIEW: header + hero + up next + strip ---------- */
 function overview(){
@@ -1700,12 +1904,14 @@ function currentSec(){
   const c=curMonth();
   return `<section class="sec" id="current"><div class="sec-h"><h2>🎯 This Month — ${c.theme}</h2><div class="right"><span class="pill neutral" id="misCount"></span></div></div>
     ${banner()}
+    ${c.intent&&c.brief?`<div class="intent"><b>${c.op||'Commander’s Intent'}</b> ${c.intent}</div>`:''}
     <div class="cm-grid2"><div class="tasks"><div class="aq" id="misList"></div></div>
     <div class="cm-side">
       <div class="card mini edge"><h3>🏁 ${c.challenge.name}</h3><p>${c.challenge.desc}</p>${c.challenge.bonus?`<p><b style="color:var(--brass)">Bonus:</b> ${c.challenge.bonus}</p>`:''}<p style="margin-top:12px"><span class="pill ember"><i class="dot ember"></i>${fmtShort(parseD(c.challenge.due))} · <span data-days="${c.challenge.due}" data-suffix=" days left">${daysTo(c.challenge.due)} days left</span></span></p></div>
+      ${c.hacks?`<div class="card mini hk"><h3>⏱️ Time Hacks <span>these do not move</span></h3>${(()=>{ const k=dkey(today()), nx=c.hacks.find(h=>h.d>=k); return c.hacks.map(h=>`<div class="hk-r ${h.d<k?'past':''} ${h===nx?'next':''} ${h.big?'big':''}"><b>${esc(fmtShort(parseD(h.d)))}</b><span>${h.t}</span></div>`).join(''); })()}</div>`:''}
       <div class="card mini"><h3>📍 Field Day</h3>${c.field.map(f=>`<p><b style="color:var(--text)">${f.t}</b><br>${f.d?fmtShort(parseD(f.d)):`<span style="color:var(--muted)">${f.dl||'Date TBD'}</span>`}${f.note?` — ${f.note}`:''}</p>`).join('')}</div>
       ${c.season?`<div class="card mini"><h3>🦌 Bonus weekends</h3><p>${c.season}</p></div>`:''}
-    </div></div></section>`;
+    </div></div>${watchCard(c)}</section>`;
 }
 function renderMissions(){
   const c=curMonth(), el=$('#misList'); if(!el) return;
@@ -1749,7 +1955,7 @@ function deadlinesSec(){
     return `<tr class="${s==='now'?'hi':''}"><td data-h="Date" class="dcell"><b>${fmtShort(parseD(m.challenge.due))}</b></td><td data-h="Month" class="mo">${m.short}</td><td data-h="Challenge" class="chc"><b>${m.challenge.name}</b></td><td data-h="${past?'Result':'Countdown'}" class="num">${cd}</td></tr>`; }).join('');
   return `<section class="sec" id="deadlines"><div class="sec-h"><h2>⏱️ Deadlines</h2><span class="hint">these do not move</span></div>
     <div class="card" style="padding:0;overflow:hidden"><div class="tblwrap" style="margin:0;border:0;border-radius:0"><table class="t stack dlt"><thead><tr><th>Date</th><th>Month</th><th>Challenge</th><th class="num">Countdown / Result</th></tr></thead><tbody id="dlBody">${rows}</tbody></table></div></div>
-    <div class="wkfix"><b>Weekday check:</b> the brief says Fri Oct 31, Sat Jan 31 and Sun May 31, but those dates fall on Sat, Sun and Mon. Confirm with Dad.</div></section>`;
+    <div class="wkfix"><b>Weekday check:</b> the master plan says Sat Jan 31 and Sun May 31, but those dates fall on Sun and Mon. Confirm with Dad.</div></section>`;
 }
 
 /* ---------- business ---------- */
@@ -1801,7 +2007,7 @@ function tick(){
     $$('[data-cd="d"]').forEach(e=>e.textContent=d); $$('[data-cd="h"]').forEach(e=>e.textContent=String(hr).padStart(2,'0')); $$('[data-cd="m"]').forEach(e=>e.textContent=String(mi).padStart(2,'0')); }
   $$('[data-days]').forEach(e=>{ const n=daysTo(e.dataset.days); e.textContent=n+(e.dataset.suffix!==undefined?e.dataset.suffix:' days'); });
   const tl=$('#todayLbl'); if(tl) tl.textContent=fmtLong(now);
-  const k=dkey(today()); if(tick._k&&tick._k!==k&&!dEditing) renderDaily(); tick._k=k;
+  const k=dkey(today()); if(tick._k&&tick._k!==k&&!dEditing){ renderDaily(); renderWatch(); } tick._k=k;
 }
 
 /* ---------- navigation ---------- */
@@ -1821,6 +2027,7 @@ function navInit(){
 /* ---------- interactions (same saved-data shape as v1: forge_v1) ---------- */
 function bind(){
   const app=$('#app');
+  app.addEventListener('click',e=>{ const w=e.target.closest('[data-wv]'); if(!w) return; const id=w.dataset.wv, on=!S.vids[id]; setVid(id,on); saveDay(); renderDaily(); renderWatch(); toast(on?'Video done ✓':'Video reopened'); });
   app.addEventListener('click',e=>{ const b=e.target.closest('[data-mis]'); if(!b) return;
     const id=b.dataset.mis; if(S.missions[id]) delete S.missions[id]; else S.missions[id]=new Date().toISOString().slice(0,10); save();
     const go=()=>{ renderMissions(); renderDaily(); toast(S.missions[id]?'Mission done 🔥':'Mission reopened'); };
@@ -1840,7 +2047,7 @@ function boot(){
   sideTarget();
   $('#app').innerHTML = overview() + currentSec() + campaignSec() + deadlinesSec() + businessSec() + binderSec() + ordersSec()
     + `<footer><p><b>THE FORGE</b> · ${F.meta.tagline} ${F.meta.taglineRef}</p></footer>`;
-  navInit(); bind(); bindDaily(); renderDaily(); renderMissions(); renderPL(); renderBinder(); tick();
+  navInit(); bind(); bindDaily(); renderDaily(); renderWatch(); renderMissions(); renderPL(); renderBinder(); tick();
   setInterval(tick,30000);
 }
 if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded',boot);
