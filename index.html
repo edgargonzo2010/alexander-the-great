@@ -1645,7 +1645,37 @@ function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('sh
 /* ---------- state (this browser only) ---------- */
 const KEY='forge_v1';
 const S = Object.assign({missions:{},binder:{},books:{},verses:{},outcomes:{},pl:{}}, LS.get(KEY,{}));
-const save = () => LS.set(KEY,S);
+const save = () => { LS.set(KEY,S); syncSoon(); };
+
+
+/* ---------- DAILY SYNC → Dad's report (private ntfy.sh topic) ----------
+   Snapshot of TODAY only: task / video names + done times. No personal info, no course login.
+   Debounced ~3 s, fire-and-forget, silent on failure. Skipped under automated test browsers unless forge_synctest is set. */
+const SYNC_URL='https://ntfy.sh/atg-r7wHouVMwEonIYFMIUA41keBaSXc';
+let syncT=null;
+function syncOff(){ try{ return navigator.webdriver&&localStorage.getItem('forge_synctest')!=='1'; }catch(e){ return true; } }
+function syncSoon(){ if(syncOff()) return; clearTimeout(syncT); syncT=setTimeout(()=>syncNow(false),3000); }
+function hm(iso){ const d=new Date(iso); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function snapshot(){
+  const m=dayModel(), k=m.k, r=m.r, ts=[];
+  const vl=v=>'#'+v.n+' '+v.t;
+  const tasks=m.items.filter(i=>i.kind==='task').map(i=>{ const o={n:i.t,ok:i.done?hm(i.done):0}; if(i.done) ts.push(i.done); if(i.opts){ o.wo=i.opts.filter(x=>i.picks[x]); Object.values(i.picks).forEach(x=>ts.push(x)); o.box=boxCount(i.id)+'/'+BOX_GOAL; } return o; });
+  const due=VID.filter(v=>v.due===k).map(v=>({n:vl(v),ok:S.vids[v.id]?hm(S.vids[v.id]):0}));
+  const over=VID.filter(v=>v.due<k&&!S.vids[v.id]).map(vl);
+  const tick=VID.filter(v=>S.vids[v.id]&&vDay(v)===k).map(v=>{ ts.push(S.vids[v.id]); return vl(v)+' @'+hm(S.vids[v.id]); });
+  const mis=[]; M.forEach(mm=>mm.missions.forEach(x=>{ if(S.missions[x.id]===k) mis.push(plain(x.t)); }));
+  const done=m.items.filter(i=>i.done).length;
+  const snap={v:1,date:k,sent:new Date().toISOString(),src:location.host||'file',score:done+'/'+m.items.length,streak:streak(),tasks,due,overdue:over,ticked:tick,missions:mis,wkend:m.catchup.length>0,last:ts.length?hm(ts.sort().pop()):null};
+  try{ if(localStorage.getItem('forge_synctest')==='1') snap.test=1; }catch(e){}
+  let body=JSON.stringify(snap);
+  if(body.length>3800){ snap.overdue=over.map(x=>x.split(' ')[0]); body=JSON.stringify(snap); }
+  return {k,body};
+}
+function syncNow(final){
+  if(syncOff()) return; clearTimeout(syncT); syncT=null;
+  try{ const s=snapshot(); fetch(SYNC_URL+'?title='+encodeURIComponent('ATG '+s.k)+'&tags=memo&priority=1',{method:'POST',body:s.body,mode:'cors',credentials:'omit',keepalive:!!final}).catch(()=>{}); }catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden'&&syncT) syncNow(true); });
 
 /* ---------- icons ---------- */
 const ICON = {
@@ -2090,6 +2120,7 @@ function boot(){
   $('#app').innerHTML = overview() + currentSec() + campaignSec() + deadlinesSec() + businessSec() + binderSec() + ordersSec()
     + `<footer><p><b>THE FORGE</b> · ${F.meta.tagline} ${F.meta.taglineRef}</p></footer>`;
   navInit(); bind(); bindDaily(); renderDaily(); renderWatch(); renderMissions(); renderPL(); renderBinder(); tick();
+  syncSoon(); /* once on load */
   setInterval(tick,30000);
 }
 if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded',boot);
