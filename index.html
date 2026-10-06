@@ -1381,6 +1381,7 @@ footer{text-align:center}
 .dd7.part::before{background:linear-gradient(90deg,var(--brand) 50%,transparent 50%);border-color:var(--brand)}
 .dd7.full::before{background:radial-gradient(circle at 35% 30%,#f4dc86,#c9a227 60%,#7d6210);border-color:#c9a227;box-shadow:0 0 8px rgba(201,162,39,.55)}
 .dd7.today::before{outline:2px solid rgba(255,106,26,.5);outline-offset:2px}
+.dd7.fut{opacity:.4}
 .dd7.we{opacity:.55}
 .dd7 span{font-size:10px;color:var(--muted);font-weight:650}
 .btn.dedit{height:32px;font-size:12.5px}
@@ -1614,7 +1615,7 @@ function renderDaily(){
   const el=$('#daily'); if(!el) return;
   const k=dkey(today()), r=dayRec(k), tasks=todaysTasks(), todo=tasks.filter(t=>!r.done[t.id]), done=tasks.filter(t=>r.done[t.id]).sort((a,b)=>r.done[a.id]<r.done[b.id]?-1:1);
   const n=done.length, N=tasks.length, all=N>0&&n===N, st=streak(), wk=today().getDay()===0||today().getDay()===6;
-  const dots=[]; for(let i=6;i>=0;i--){ const d=today(); d.setDate(d.getDate()-i); const rr=S.daily.hist[dkey(d)], c=dayComplete(rr)?'full':(rr&&Object.keys(rr.done).length?'part':''), w=d.getDay(); dots.push(`<i class="dd7 ${c} ${i===0?'today':''} ${w===0||w===6?'we':''}" title="${fmtShort(d)}${c==='full'?' · all done':c==='part'?' · partly done':''}"><span>${DOW[w]}</span></i>`); }
+  const dots=[]; const t0=today(); for(let k=0;k<7;k++){ const d=today(); d.setDate(t0.getDate()-t0.getDay()+k); const i=t0.getDay()-k; const fut=i<0; const rr=fut?null:S.daily.hist[dkey(d)], c=dayComplete(rr)?'full':(rr&&Object.keys(rr.done).length?'part':''), w=d.getDay(); dots.push(`<i class="dd7 ${c} ${i===0?'today':''} ${fut?'fut':''} ${w===0||w===6?'we':''}" title="${fmtShort(d)}${c==='full'?' · all done':c==='part'?' · partly done':''}"><span>${DOW[w]}</span></i>`); }
   const nm=curMonth().missions.find(x=>!S.missions[x.id]);
   el.className='card daily'+(all?' complete':'');
   el.innerHTML=`<div class="dh">
