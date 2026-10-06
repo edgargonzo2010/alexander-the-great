@@ -1574,6 +1574,21 @@ footer{text-align:center}
 .dt.cu .dbtn{border-style:dashed}
 .cu-sep{height:6px}
 .cu-h+.dt{border-top:0}
+.wo-c{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.wo-p{height:28px;padding:0 11px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--text-2);font-size:12.5px;font-weight:650;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:var(--font);transition:all .15s var(--ease)}
+.wo-p svg{width:12px;height:12px}
+.wo-p:hover{border-color:var(--brass);color:var(--brass-2)}
+.wo-p.on{background:var(--brass-bg);border-color:color-mix(in srgb,var(--brass) 55%,transparent);color:var(--brass-2)}
+:root[data-theme="light"] .wo-p.on{color:var(--brass)}
+.dtx span.wo-box{display:inline-block;margin-top:7px;font-size:11.5px;color:var(--muted);font-weight:600}
+.dtx span.wo-box.ok{color:var(--brass-2)}
+.dt.done .dtx span.wo-box{font-weight:600;color:var(--muted)} .dt.done .dtx span.wo-box.ok{color:var(--brass-2)}
+.dt.done.wo .dtx b{text-decoration:none;color:var(--text)}
+.dt.done.wo .wo-p:not(.on){opacity:.7}
+.dt.wo{align-items:flex-start} .dt.wo .dbtn,.dt.wo .dchk{margin-top:2px}
+.dt.wo .dbtn{border-style:dashed}
+.dt.nudge .wo-c{animation:wonudge .5s var(--ease)}
+@keyframes wonudge{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @media print{.wkv-p,.vopen{border:0}}
 </style>
 </head>
@@ -1707,11 +1722,11 @@ function sideTarget(){
 
 /* ---------- DAILY CHECKLIST (saved in forge_v1.daily; resets each local calendar day) ----------
    Course videos: ticks live in forge_v1.vids {lessonId: ISO time} — permanent, never reset.
-   Weekly goals (Boxing): ticks live in forge_v1.daily.hist[day].wk — they do not count toward the daily total. */
+   Workout options: picks live in forge_v1.daily.hist[day].wo[taskId] {option: ISO time}. Any pick completes Workout.
+   Boxing goal (2/week, Sun–Sat) counts days with the Boxing option picked. */
 const DAILY_DEFAULT=[
   {id:'luoa',     t:'LUOA assignments complete', s:'9am–12pm',                                   days:[1,2,3,4,5]},
-  {id:'workout',  t:'Workout',                   s:'Run / gym / conditioning',                    days:[0,1,2,3,4,5,6]},
-  {id:'boxing',   t:'Boxing',                    s:'Goal: 2 sessions a week',                     days:[0,1,2,3,4,5,6], weekly:2},
+  {id:'workout',  t:'Workout',                   s:'',                                            days:[0,1,2,3,4,5,6]},
   {id:'mission',  t:'Curriculum mission block',  s:'Afternoon, 1–2 hrs',                          days:[1,2,3,4,5]},
   {id:'watch',    t:'Watch List: 1 video',       s:'1 page of notes + action step shown to Dad',  days:[1,2,3,4,5]},
   {id:'read',     t:'Read today’s pages',        s:'{book}',                                      days:[0,1,2,3,4,5,6]},
@@ -1724,11 +1739,15 @@ if(!S.daily) S.daily={};
 if(!S.daily.hist) S.daily.hist={};
 if(!S.vids) S.vids={};
 /* one-time: add Boxing to a task list that was already customized in the editor */
-if(S.daily.tasks&&S.daily.tasks.length&&!S.daily.migBox){
-  if(!S.daily.tasks.some(t=>t.id==='boxing')){ const i=S.daily.tasks.findIndex(t=>t.id==='workout'); S.daily.tasks.splice(i<0?S.daily.tasks.length:i+1,0,JSON.parse(JSON.stringify(DAILY_DEFAULT[2]))); }
-  S.daily.migBox=1; save();
-}
 const dkey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const WO_OPTS=['WOD','Boxing','2-Mile Run','3-Mile Run','20 Minutes of Sprints'], BOX_GOAL=2;
+/* one-time: fold the old standalone Boxing item into Workout (keeps every old tick: hist[day].wk.boxing -> hist[day].wo.workout.Boxing) */
+if(!S.daily.migWo){
+  if(S.daily.tasks) S.daily.tasks=S.daily.tasks.filter(t=>t.id!=='boxing');
+  const tk=dkey(new Date());
+  Object.keys(S.daily.hist).forEach(k=>{ const r=S.daily.hist[k]; if(r&&r.wk&&r.wk.boxing){ r.wo=r.wo||{}; r.wo.workout=r.wo.workout||{}; if(!r.wo.workout.Boxing) r.wo.workout.Boxing=r.wk.boxing; if(k===tk&&r.done&&!r.done.workout) r.done.workout=r.wk.boxing; } });
+  S.daily.migWo=1; save();
+}
 const dTasks = () => (S.daily.tasks&&S.daily.tasks.length?S.daily.tasks:DAILY_DEFAULT);
 const todaysTasks = () => dTasks().filter(t=>t.days.indexOf(today().getDay())>=0);
 const fmtTime = iso => new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
@@ -1746,6 +1765,8 @@ const isWatch=t=>t.id==='watch'||/watch/i.test(t.t);
 const replMatch=(t,e)=>t.id===e.replaces||(e.replaces==='read'&&/\bread/i.test(t.t));
 function weekRange(){ const t0=today(), s=new Date(t0); s.setDate(t0.getDate()-t0.getDay()); const out=[]; for(let i=0;i<7;i++){ const d=new Date(s); d.setDate(s.getDate()+i); out.push(d); } return out; }
 function weekCount(id){ return weekRange().filter(d=>{ const r=S.daily.hist[dkey(d)]; return r&&r.wk&&r.wk[id]; }).length; }
+const woOpts=x=>x.opts&&x.opts.length?x.opts:(x.id==='workout'?WO_OPTS:null);
+const boxCount=id=>weekRange().filter(d=>{ const r=S.daily.hist[dkey(d)]; return r&&r.wo&&r.wo[id]&&Object.keys(r.wo[id]).some(o=>/box/i.test(o)); }).length;
 
 /* today's list = regular tasks (+ dated extras like 1984) + exact videos (overdue first) ; weekly goals kept separate */
 function dayModel(){
@@ -1758,7 +1779,7 @@ function dayModel(){
   const vmode=(WL.from&&k>=WL.from&&k<=WL.to)||overdue.length||todays.length;
   const ex=(F.dailyExtras||[]).filter(e=>k>=e.from&&k<=e.to), used=new Set();
   const items=[]; let slot=-1;
-  const task=x=>({kind:'task',id:x.id,t:x.t,s:dSub(x.s||''),done:r.done[x.id]||null});
+  const task=x=>{ const o=woOpts(x); return {kind:'task',id:x.id,t:x.t,s:o?'':dSub(x.s||''),done:r.done[x.id]||null,opts:o,picks:o?Object.assign({},(r.wo||{})[x.id]):null}; };
   base.forEach(x=>{
     if(vmode&&isWatch(x)){ if(slot<0) slot=items.length; return; }
     const e=ex.find(e=>replMatch(x,e));
@@ -1777,7 +1798,8 @@ function dayModel(){
 }
 function saveDay(){ const m=dayModel(), r=m.r, ids=new Set(m.items.map(i=>i.id));
   Object.keys(r.done).forEach(id=>{ if(!ids.has(id)) delete r.done[id]; });
-  m.items.forEach(i=>{ if(i.kind==='vid'){ if(i.done) r.done[i.id]=i.done; else delete r.done[i.id]; } });
+  m.items.forEach(i=>{ if(i.kind==='vid'){ if(i.done) r.done[i.id]=i.done; else delete r.done[i.id]; }
+    else if(i.opts){ const ts=Object.values(i.picks).sort(); if(ts.length){ if(!r.done[i.id]) r.done[i.id]=ts[0]; } else delete r.done[i.id]; } });
   r.n=m.items.length; S.daily.hist[m.k]=r; save(); }
 const dayComplete = r => r && r.n>0 && Object.keys(r.done).length>=r.n;
 function streak(){ let n=0; const d=today(); if(!dayComplete(S.daily.hist[dkey(d)])) d.setDate(d.getDate()-1);
@@ -1785,11 +1807,16 @@ function streak(){ let n=0; const d=today(); if(!dayComplete(S.daily.hist[dkey(d
 let dEditing=false, dJust=null;
 function dailyCard(){ return `<div class="card daily" id="daily"></div>`; }
 function vidSub(i){ const v=i.v, d=parseD(v.due); return `${i.overdue?`<em class="ovtag">${i.catchup?'Catch up':'Overdue'}</em> <i class="ovd-d">${i.catchup?'optional · ':''}due ${DOWL[d.getDay()]} ${d.getMonth()+1}/${d.getDate()}</i> `:''}<a class="vopen" href="${esc(v.url)}" target="_blank" rel="noopener" title="${esc(v.act)}">Open ↗</a> <i class="vnote">opens on Dad’s login</i>`; }
+function woChips(i){ const bx=i.opts.some(o=>/box/i.test(o)), c=bx?boxCount(i.id):0;
+  return `<div class="wo-c">${i.opts.map(o=>{ const on=!!i.picks[o]; return `<button type="button" class="wo-p ${on?'on':''}" data-wo="${i.id}" data-opt="${esc(o)}" aria-pressed="${on}">${on?CHECK:''}${esc(o)}</button>`; }).join('')}</div>${bx?`<span class="wo-box ${c>=BOX_GOAL?'ok':''}">🥊 Boxing ${c}/${BOX_GOAL} this week${c>=BOX_GOAL?' ✓':''}</span>`:''}`; }
+const woPicked=i=>i.opts.filter(o=>i.picks[o]);
 function todoRow(i){
+  if(i.opts) return `<div class="dt wo" data-dt="${i.id}"><button class="dbtn" type="button" data-wohint="${i.id}" aria-label="${esc(i.t)}: tap what you did below">${CHECK}</button><div class="dtx"><b>${esc(i.t)}</b><span class="wo-h">Tap what you did — one or more</span>${woChips(i)}</div></div>`;
   if(i.kind==='vid') return `<div class="dt vid ${i.overdue?'ovd':''} ${i.catchup?'cu':''}" data-dt="${i.id}"><button class="dbtn" type="button" data-dcomp="${i.id}" aria-label="Done: ${esc(vLabel(i.v))}">${CHECK}</button><div class="dtx"><b>${esc(vLabel(i.v))}</b><span>${vidSub(i)}</span></div></div>`;
   return `<div class="dt" data-dt="${i.id}"><button class="dbtn" type="button" data-dcomp="${i.id}" aria-label="Complete ${esc(i.t)}">${CHECK}</button><div class="dtx"><b>${esc(i.t)}</b>${i.s?`<span>${esc(i.s)}</span>`:''}</div></div>`;
 }
 function doneRow(i){
+  if(i.opts) return `<div class="dt done wo ${dJust===i.id?'arrive':''}"><div class="dchk">${CHECK}</div><div class="dtx"><b>${esc(i.t)} · ${esc(woPicked(i).join(', '))}</b><span>Done ${fmtTime(i.done)} · tap to add more</span>${woChips(i)}</div><button class="undo" type="button" data-dundo="${i.id}" title="Undo">Undo</button></div>`;
   const t=i.kind==='vid'?vLabel(i.v):i.t, when=i.early?`Done ahead · ${DOWL[new Date(i.done).getDay()]} ${fmtTime(i.done)}`:`Done ${fmtTime(i.done)}`;
   return `<div class="dt done ${i.kind==='vid'?'vid':''} ${dJust===i.id?'arrive':''}"><div class="dchk">${CHECK}</div><div class="dtx"><b>${esc(t)}</b><span>${when}</span></div><button class="undo" type="button" data-dundo="${i.id}" title="Undo">Undo</button></div>`;
 }
@@ -1844,16 +1871,22 @@ function dailyEditor(){
       <div class="der-in"><input data-edf="t" data-i="${i}" value="${esc(t.t)}" aria-label="Task name"><input data-edf="s" data-i="${i}" value="${esc(t.s||'')}" placeholder="Detail (optional)" aria-label="Task detail"></div>
       <div class="der-days">${DOW.map((d,w)=>`<button type="button" class="${t.days.indexOf(w)>=0?'on':''}" data-day="${w}" data-i="${i}" title="${DOWL[w]}">${d}</button>`).join('')}</div>
       <button type="button" class="der-x" data-ed="del" data-i="${i}" aria-label="Remove task">✕</button></div>`).join('')}
-    <div class="ded-f"><button class="btn primary" type="button" data-dact="add">＋ Add task</button><button class="btn" type="button" data-dact="reset">Reset to defaults</button><span class="hint">{book} and {verse} fill in this month’s book and verse. Boxing is a weekly goal (2 a week).</span></div></div>`;
+    <div class="ded-f"><button class="btn primary" type="button" data-dact="add">＋ Add task</button><button class="btn" type="button" data-dact="reset">Reset to defaults</button><span class="hint">{book} and {verse} fill in this month’s book and verse. Workout options (WOD, Boxing, runs, sprints) are built in; Boxing goal is 2 a week.</span></div></div>`;
 }
 function setVid(id,on){ if(on) S.vids[id]=new Date().toISOString(); else delete S.vids[id]; }
 function bindDaily(){
   const el=$('#daily');
-  const editable=()=>{ if(!S.daily.tasks||!S.daily.tasks.length){ S.daily.tasks=JSON.parse(JSON.stringify(DAILY_DEFAULT)); S.daily.migBox=1; } return S.daily.tasks; };
+  const editable=()=>{ if(!S.daily.tasks||!S.daily.tasks.length){ S.daily.tasks=JSON.parse(JSON.stringify(DAILY_DEFAULT)); } return S.daily.tasks; };
   el.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; const d=b.dataset;
     if(d.dcomp){ const row=b.closest('.dt'); b.classList.add('pop'); row.classList.add('leaving');
       setTimeout(()=>{ const k=dkey(today()), r=dayRec(k); if(!r.done) r.done={}; if(d.dcomp.indexOf('vid:')===0) setVid(d.dcomp.slice(4),true); r.done[d.dcomp]=new Date().toISOString(); S.daily.hist[k]=r; saveDay(); dJust=d.dcomp; renderDaily(); renderWatch(); const m=dayModel(); toast(m.items.length&&m.items.every(i=>i.done)?'Day complete 🔥':'Done ✓'); },380); }
-    else if(d.dundo){ const k=dkey(today()), r=dayRec(k); if(d.dundo.indexOf('vid:')===0) setVid(d.dundo.slice(4),false); delete r.done[d.dundo]; S.daily.hist[k]=r; saveDay(); renderDaily(); renderWatch(); toast('Moved back to To Do'); }
+    else if(d.wo){ const k=dkey(today()), r=dayRec(k); if(!r.done) r.done={}; r.wo=r.wo||{}; const P=r.wo[d.wo]=r.wo[d.wo]||{}, was=Object.keys(P).length>0, opt=d.opt;
+      if(P[opt]) delete P[opt]; else P[opt]=new Date().toISOString(); if(!Object.keys(P).length) delete r.wo[d.wo];
+      const now1=!!(r.wo[d.wo]); S.daily.hist[k]=r;
+      const fin=()=>{ saveDay(); renderDaily(); const bc=boxCount(d.wo); toast(!now1?'Moved back to To Do':/box/i.test(opt)&&P[opt]?(bc>=BOX_GOAL?'Boxing goal met this week 🥊':'Boxing '+bc+'/'+BOX_GOAL+' this week 🥊'):P[opt]?opt+' logged ✓':opt+' removed'); };
+      if(!was&&now1){ const row=b.closest('.dt'); b.classList.add('on'); row.classList.add('leaving'); dJust=d.wo; setTimeout(fin,380); } else fin(); }
+    else if(d.wohint){ const row=b.closest('.dt'); row.classList.remove('nudge'); void row.offsetWidth; row.classList.add('nudge'); toast('Tap what you did: WOD, Boxing, run or sprints'); }
+    else if(d.dundo){ const k=dkey(today()), r=dayRec(k); if(d.dundo.indexOf('vid:')===0) setVid(d.dundo.slice(4),false); if(r.wo) delete r.wo[d.dundo]; delete r.done[d.dundo]; S.daily.hist[k]=r; saveDay(); renderDaily(); renderWatch(); toast('Moved back to To Do'); }
     else if(d.dwk){ const row=b.closest('.dt'); b.classList.add('pop'); row.classList.add('leaving');
       setTimeout(()=>{ const k=dkey(today()), r=dayRec(k); r.wk=r.wk||{}; r.wk[d.dwk]=new Date().toISOString(); S.daily.hist[k]=r; save(); dJust=d.dwk; renderDaily(); const w=dayModel().weekly.find(x=>x.id===d.dwk); toast(w&&w.count>=w.goal?w.t+' goal met this week 🥊':w.t+' logged ✓'); },380); }
     else if(d.dwkundo){ const k=dkey(today()), r=dayRec(k); if(r.wk) delete r.wk[d.dwkundo]; S.daily.hist[k]=r; save(); renderDaily(); toast('Moved back to To Do'); }
