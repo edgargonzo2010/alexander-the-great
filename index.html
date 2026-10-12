@@ -1645,7 +1645,60 @@ function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('sh
 /* ---------- state (this browser only) ---------- */
 const KEY='forge_v1';
 const S = Object.assign({missions:{},binder:{},books:{},verses:{},outcomes:{},pl:{}}, LS.get(KEY,{}));
-const save = () => { LS.set(KEY,S); syncSoon(); };
+const save = () => { LS.set(KEY,S); stTrack(); syncSoon(); };
+
+/* ---------- CROSS-DEVICE TICK SYNC ----------
+   Every saved value is flattened to a path ("v|m2-01", "d|2026-10-12|done|luoa", "d|<day>|wo|workout|Boxing", "x|missions|oct-m0", …)
+   with [value, modifiedMs]; an undo becomes a tombstone [null, ms]. forge_st = {p:{path:[v,t]}, r:{path:t pushed/seen remotely}}.
+   Pull: durable state file in the Pages repo (st-q7m4k2xw.json, merged every ~15 min by a GitHub Action) + the last 12h of the
+   private ntfy topic "<topic>-st". Merge = newest timestamp per path wins (equal time: a real value beats a tombstone).
+   Push: only paths newer than what the remote has; real browsers only (bots/headless never push). An empty browser has no
+   paths, so it can never erase anything. */
+const ST_PUSH='https://ntfy.sh/atg-r7wHouVMwEonIYFMIUA41keBaSXc-st'+((()=>{ try{ return localStorage.getItem('forge_synctest')==='1'; }catch(e){ return false; } })()?'-test':''), /* test browsers never touch Alex's real state */ ST_FILE='st-q7m4k2xw.json', XK=['missions','binder','books','verses','outcomes','pl'];
+let XS=null, stT=null, stBusy=false;
+const jeq=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+function stFlat(){ const o={}, V=S.vids||{}, D=S.daily||{}, H=D.hist||{};
+  Object.keys(V).forEach(k=>o['v|'+k]=V[k]);
+  Object.keys(H).forEach(d=>{ const r=H[d]||{}; if(r.n!=null) o['d|'+d+'|n']=r.n;
+    ['done','wk'].forEach(f=>Object.keys(r[f]||{}).forEach(i=>o['d|'+d+'|'+f+'|'+i]=r[f][i]));
+    Object.keys(r.wo||{}).forEach(t=>Object.keys(r.wo[t]||{}).forEach(x=>o['d|'+d+'|wo|'+t+'|'+x]=r.wo[t][x])); });
+  XK.forEach(k=>Object.keys(S[k]||{}).forEach(i=>o['x|'+k+'|'+i]=S[k][i]));
+  if(D.tasks) o['t']=D.tasks; return o; }
+function stInit(){ if(XS) return; XS=LS.get('forge_st',null); if(XS&&XS.p) { XS.r=XS.r||{}; return; }
+  XS={p:{},r:{}}; const f=stFlat(); Object.keys(f).forEach(k=>{ const v=f[k], t=(typeof v==='string'&&/^\d{4}-\d\d-\d\dT/.test(v))?Date.parse(v):1; XS.p[k]=[v,isNaN(t)?1:t]; }); LS.set('forge_st',XS); }
+function stTrack(){ stInit(); const f=stFlat(), P=XS.p, now=Date.now(); let ch=false;
+  const nt=k=>P[k]?Math.max(now,P[k][1]+1):now; /* an edit always beats what this device has already seen, even with a slow clock */
+  Object.keys(f).forEach(k=>{ if(!P[k]||!jeq(P[k][0],f[k])){ P[k]=[f[k],nt(k)]; ch=true; } });
+  Object.keys(P).forEach(k=>{ if(P[k][0]!==null&&!(k in f)){ P[k]=[null,nt(k)]; ch=true; } });
+  if(ch){ LS.set('forge_st',XS); stSoon(); } }
+function stApply(){ const P=XS.p, V={}, H={}, X={}; let T=null;
+  Object.keys(P).forEach(k=>{ const v=P[k][0]; if(v===null) return; const a=k.split('|');
+    if(a[0]==='v') V[a.slice(1).join('|')]=v;
+    else if(a[0]==='d'){ const r=H[a[1]]=H[a[1]]||{done:{}}; if(a[2]==='n') r.n=v; else if(a[2]==='wo'){ r.wo=r.wo||{}; (r.wo[a[3]]=r.wo[a[3]]||{})[a.slice(4).join('|')]=v; } else (r[a[2]]=r[a[2]]||{})[a.slice(3).join('|')]=v; }
+    else if(a[0]==='x') (X[a[1]]=X[a[1]]||{})[a.slice(2).join('|')]=v;
+    else if(a[0]==='t') T=v; });
+  Object.keys(H).forEach(d=>{ if(H[d].n==null) H[d].n=0; });
+  S.vids=V; S.daily=S.daily||{}; S.daily.hist=H; if(T) S.daily.tasks=T; else delete S.daily.tasks; XK.forEach(k=>S[k]=X[k]||{});
+  LS.set(KEY,S); }
+function stMerge(R){ stInit(); let ch=false; Object.keys(R||{}).forEach(k=>{ const b=R[k]; if(!Array.isArray(b)||typeof b[1]!=='number') return; const a=XS.p[k];
+    XS.r[k]=Math.max(XS.r[k]||0,b[1]);
+    if(!a||b[1]>a[1]||(b[1]===a[1]&&a[0]===null&&b[0]!==null)){ if(!a||!jeq(a[0],b[0])) ch=true; XS.p[k]=[b[0],b[1]]; } });
+  if(ch) stApply(); LS.set('forge_st',XS); return ch; }
+function stSoon(){ if(syncOff()) return; clearTimeout(stT); stT=setTimeout(stPush,2500); }
+function stPush(){ if(syncOff()||!XS) return; clearTimeout(stT); stT=null;
+  const ks=Object.keys(XS.p).filter(k=>XS.p[k][1]>(XS.r[k]||0)); if(!ks.length) return;
+  const chunks=[]; let c={}, sz=0; ks.forEach(k=>{ const e=JSON.stringify(k)+JSON.stringify(XS.p[k]); if(sz+e.length>3200&&sz){ chunks.push(c); c={}; sz=0; } c[k]=XS.p[k]; sz+=e.length+2; }); chunks.push(c);
+  chunks.forEach(ch=>{ try{ fetch(ST_PUSH+'?title=st&priority=1',{method:'POST',body:JSON.stringify({d:devId(),c:ch}),mode:'cors',credentials:'omit',keepalive:true})
+    .then(r=>{ if(r.ok){ Object.keys(ch).forEach(k=>XS.r[k]=Math.max(XS.r[k]||0,ch[k][1])); LS.set('forge_st',XS); } }).catch(()=>{}); }catch(e){} }); }
+function stPull(){ if(stBusy) return; stBusy=true; stInit();
+  const j=u=>fetch(u,{cache:'no-store',credentials:'omit'}).then(r=>r.ok?r.text():'').catch(()=>'');
+  return Promise.all([location.protocol==='file:'?Promise.resolve(''):j(ST_FILE+'?_='+Date.now()), j(ST_PUSH+'/json?poll=1&since=12h')]).then(([a,b])=>{ let ch=false;
+    try{ const f=JSON.parse(a||'{}'); if(f&&f.p) ch=stMerge(f.p)||ch; }catch(e){}
+    (b||'').split('\n').forEach(l=>{ try{ const m=JSON.parse(l); if(m.event==='message'&&m.message){ const x=JSON.parse(m.message); if(x&&x.c) ch=stMerge(x.c)||ch; } }catch(e){} });
+    stBusy=false; window.__stPulled=(window.__stPulled||0)+1;
+    if(ch){ try{ renderDaily(); renderWatch(); renderMissions(); renderPL(); renderBinder(); tick(); }catch(e){} syncSoon(); }
+    stPush(); }).catch(()=>{ stBusy=false; }); }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') stPull(); });
 
 
 /* ---------- DAILY SYNC → Dad's report (private ntfy.sh topic) ----------
@@ -2129,6 +2182,7 @@ function boot(){
     + `<footer><p><b>THE FORGE</b> · ${F.meta.tagline} ${F.meta.taglineRef}</p></footer>`;
   navInit(); bind(); bindDaily(); renderDaily(); renderWatch(); renderMissions(); renderPL(); renderBinder(); tick();
   syncSoon(); /* once on load */
+  stTrack(); stPull(); setInterval(stPull,180000); /* cross-device merge: on load + every 3 min */
   setInterval(tick,30000);
 }
 if(document.readyState!=='loading') boot(); else document.addEventListener('DOMContentLoaded',boot);
