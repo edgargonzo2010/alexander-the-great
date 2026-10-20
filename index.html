@@ -1383,7 +1383,7 @@ footer{text-align:center}
   .ov-row{grid-template-columns:1fr}
   .mb{grid-template-columns:1fr}
 }
-@media (max-width:980px){.mr-hd{display:none}.mrow summary{grid-template-columns:auto minmax(0,1fr) 20px;gap:6px 14px}.mrow .c1{grid-row:1/3}.mrow .c3{grid-column:2}.mrow .c4{display:none}.mrow .chev{grid-row:1/3;grid-column:3}}
+@media (max-width:980px){.mr-hd{display:none}.mrow summary{grid-template-columns:auto minmax(0,1fr) 20px;gap:6px 14px}.mrow .c1{grid-row:1/3}.mrow .c3{grid-column:1/3}.mrow .c4{display:none}.mrow .chev{grid-row:1/3;grid-column:3}}
 @media (max-width:640px){
   .wrap{padding:22px 16px 120px}
   section.sec{margin-top:56px}
@@ -1489,7 +1489,7 @@ footer{text-align:center}
 .ovs{padding:18px 24px}
 .ovs .strip{gap:6px}
 .ovs-f{padding-top:12px}
-@media (max-width:1100px){.dcols{grid-template-columns:1fr}.der{grid-template-columns:30px minmax(0,1fr) 30px}.der-days{grid-column:2}.der-x{grid-row:1;grid-column:3}}
+@media (max-width:1100px){.dcols{grid-template-columns:1fr}.der{grid-template-columns:30px minmax(0,1fr) 30px}.der-days{grid-column:1/3}.der-x{grid-row:1;grid-column:3}}
 @media (max-width:760px){.dprog{order:3;max-width:none;flex-basis:100%;margin-left:0}.d7{order:4}.dh{gap:14px}}
 @media (max-width:640px){
   .daily{padding:20px 16px 18px}
@@ -1591,12 +1591,12 @@ footer{text-align:center}
 @keyframes wonudge{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @media print{.wkv-p,.vopen{border:0}}
 
-.fdc .fdc-r{display:grid;grid-template-columns:18px 1fr auto;gap:2px 8px;padding:7px 0;border-top:1px solid color-mix(in srgb,var(--brass) 25%,transparent);font-size:13px}
+.fdc .fdc-r{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:7px 0;border-top:1px solid color-mix(in srgb,var(--brass) 25%,transparent);font-size:13px}
 .fdc .fdc-r:first-of-type{border-top:0}
 .fdc .fdc-r b{color:var(--brand);grid-row:span 2}
 .fdc .fdc-r a{color:var(--text);text-decoration:none;font-weight:600}.fdc .fdc-r a:hover{color:var(--brand)}
-.fdc .fdc-r span{color:var(--muted);font-size:12px;grid-column:2}
-.fdc .fdc-r em{font-style:normal;color:var(--brass-2);grid-column:3;grid-row:1;text-align:right;white-space:nowrap}
+.fdc .fdc-r span{color:var(--muted);font-size:12px;grid-column:1/3}
+.fdc .fdc-r em{font-style:normal;color:var(--brass-2);grid-column:2;grid-row:1;text-align:right;white-space:nowrap}
 .fdc .fdc-r em.neg{color:var(--muted)}
 .fdc .fdc-n{font-size:11.5px;color:var(--muted);margin-top:6px}
 .fdc .fdc-pdf{display:inline-block;margin-top:6px;color:var(--brand);font-weight:600;text-decoration:none}
@@ -2044,8 +2044,8 @@ function banner(){
   if(c.brief) return '';
   return `<div class="stale ember slim" role="status"><div class="ic">📋</div><div class="body"><div class="tt">${c.name.split(' ')[0]} Mission Brief not issued yet</div><div class="dd">Running on the master-doc plan until the brief and Dad’s email go out.</div></div></div>`;
 }
-const FDC=[{"a": "449 Hamilton E Holmes Dr NW, Atlanta 30318", "u": "https://www.redfin.com/GA/Atlanta/449-Hamilton-E-Holmes-Dr-NW-30318/home/24762291", "p": 145000, "pr": 20650, "dr": "~45 min"}, {"a": "2430 Cheryl Lynne Ln, Atlanta 30349", "u": "https://www.coldwellbanker.com/ga/atlanta/2430-cheryl-lynne-ln/lid-P00800000HIxPXSAoOGrDXVCc5nbPlvfPvCHxsqc", "p": 100000, "pr": 19050, "dr": "~55 min"}, {"a": "976 Bernice Ct, Lawrenceville 30045", "u": "https://www.redfin.com/GA/Lawrenceville/976-Bernice-Ct-30045/home/25095432", "p": 220000, "pr": -4750, "dr": "~15 min"}, {"a": "915 Lake Dr, Snellville 30039", "u": "https://www.redfin.com/GA/Snellville/915-Lake-Dr-30039/home/24977954", "p": 202000, "pr": -32540, "dr": "~30 min"}, {"a": "3159 Meadow Point Dr, Snellville 30039", "u": "https://www.redfin.com/GA/Snellville/3159-Meadow-Point-Dr-30039/home/25014440", "p": 274900, "pr": -32493, "dr": "~25 min"}];
-function fdcCard(){ const m=v=>(v<0?'−$':'$')+Math.abs(Math.round(v/1000))+'k'; return `<div class="card mini fdc"><h3>🏚️ Field Day Candidates <span>pick one Mon 10/26</span></h3>${FDC.map((d,i)=>`<div class="fdc-r"><b>${i+1}</b><a href="${d.u}" target="_blank" rel="noopener">${esc(d.a)}</a><span>$${(d.p/1000).toFixed(0)}k · ${d.dr}</span><em class="${d.pr<0?'neg':''}">${m(d.pr)} est.</em></div>`).join('')}<p class="fdc-n">Est. profit at asking price, all estimates. None pass the 70% rule at list, so you have to negotiate.</p><a class="fdc-pdf" href="fieldday/Field_Day_Candidates.pdf" target="_blank" rel="noopener">📄 Deal sheets (PDF)</a></div>`; }
+const FDC=[{"a": "2430 Cheryl Lynne Ln, Atlanta 30349", "u": "https://www.coldwellbanker.com/ga/atlanta/2430-cheryl-lynne-ln/lid-P00800000HIxPXSAoOGrDXVCc5nbPlvfPvCHxsqc", "p": 100000, "bb": "3 bd / 1.5 ba", "sf": 1654, "dr": "~55 min"}, {"a": "3159 Meadow Point Dr, Snellville 30039", "u": "https://www.redfin.com/GA/Snellville/3159-Meadow-Point-Dr-30039/home/25014440", "p": 274900, "bb": "4 bd / 2.5 ba", "sf": 3002, "dr": "~25 min"}, {"a": "449 Hamilton E Holmes Dr NW, Atlanta 30318", "u": "https://www.redfin.com/GA/Atlanta/449-Hamilton-E-Holmes-Dr-NW-30318/home/24762291", "p": 145000, "bb": "3 bd / 1 ba", "sf": 925, "dr": "~45 min"}, {"a": "915 Lake Dr, Snellville 30039", "u": "https://www.redfin.com/GA/Snellville/915-Lake-Dr-30039/home/24977954", "p": 202000, "bb": "5 bd / 2.5 ba", "sf": 2209, "dr": "~30 min"}, {"a": "976 Bernice Ct, Lawrenceville 30045", "u": "https://www.redfin.com/GA/Lawrenceville/976-Bernice-Ct-30045/home/25095432", "p": 220000, "bb": "3 bd / 2 ba", "sf": 2168, "dr": "~15 min"}];
+function fdcCard(){ return `<div class="card mini fdc"><h3>🏚️ Field Day Candidates</h3>${FDC.map(d=>`<div class="fdc-r"><a href="${d.u}" target="_blank" rel="noopener">${esc(d.a)}</a><em>$${d.p.toLocaleString()}</em><span>${esc(d.bb)} · ${d.sf.toLocaleString()} sf · ${d.dr} drive</span></div>`).join('')}<p class="fdc-n"><b style="color:var(--brass)">Your job:</b> pull 3 sold comps, estimate ARV and rehab, run the numbers, and find your max offer (70% rule). Bring it to Dad Mon Oct 26.</p></div>`; }
 function currentSec(){
   const c=curMonth();
   return `<section class="sec" id="current"><div class="sec-h"><h2>🎯 This Month — ${c.theme}</h2><div class="right"><span class="pill neutral" id="misCount"></span></div></div>
