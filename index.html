@@ -265,6 +265,22 @@ const FORGE = {
   ]
 };
 </script>
+
+<script>
+/* Report Card — fill with real Liberty grades: courses:[{n:'Bible 8',p:96,m:0}, ...]  (p = %, m = missing/late count); updated: 'Thu Oct 22 · 10:45 AM ET' */
+const GRADES={updated:null,courses:[]};
+const letter=p=>p>=90?'A':p>=80?'B':p>=70?'C':p>=60?'D':'F';
+function gradesCard(){const c=GRADES.courses||[],has=c.length>0,
+ avg=has?c.reduce((s,x)=>s+x.p,0)/c.length:0,
+ gpa=has?c.reduce((s,x)=>s+({A:4,B:3,C:2,D:1,F:0})[letter(x.p)],0)/c.length:0,miss=c.reduce((s,x)=>s+x.m,0),
+ need=c.filter(x=>x.p<80||x.m>0),ab=c.filter(x=>'AB'.includes(letter(x.p))).length;
+ const pill=l=>'AB'.includes(l)?'brass':l==='C'?'neutral':'ember', D='—';
+ return `<div class="hero grd-hero"><div class="hero-l"><div class="eyebrow2">Liberty University Online Academy · 8th Grade</div><div class="hero-t">Report Card</div><div class="hero-v"><b>Fall Semester · Current</b>${has&&GRADES.updated?`<span class="u">updated ${GRADES.updated}</span>`:''}</div>${has?'':'<div class="grd-pend">Grades sync pending</div>'}</div>
+ <div class="hero-r"><div class="cdn"><div><b class="br">${has?gpa.toFixed(2):D}</b><span>GPA</span></div><div><b class="br">${has?avg.toFixed(0)+'%':D}</b><span>Average</span></div><div><b>${has?miss:D}</b><span>Missing / late</span></div><div><b class="br">${has?ab+'/'+c.length:D}</b><span>A/B classes</span></div></div></div></div>
+ <div class="card wl grd">${need.length?`<div class="grd-na"><em class="ovtag">Needs attention</em> ${need.map(x=>`<span class="pill ember">${x.n} · ${x.p}% ${letter(x.p)}${x.m?` · ${x.m} missing`:''}</span>`).join('')}</div>`:''}
+ <div class="wl-wk">Courses</div>
+ ${has?c.map(x=>{const l=letter(x.p),ok='AB'.includes(l);return `<div class="wl-r"><span class="pill ${pill(l)} gl">${l}</span><div class="wl-t"><b>${x.n}</b><span>${x.m?`<em class="ovtag">${x.m} missing</em>`:'No missing work'}</span></div><div class="heat ${ok?'ok':''}"><i style="width:${x.p}%"></i></div><span class="wl-d ${ok?'ok':'late'}">${x.p}%</span></div>`}).join(''):'<div class="wl-r empty">Grades will appear here once synced from Liberty.</div>'}</div>`}
+</script>
 <!-- base: copied from COO Command Center src/03_css.html (layout, cards, nav, tables, responsive) -->
 <style>
 :root{
@@ -1603,6 +1619,36 @@ footer{text-align:center}
 :root[data-theme="light"] .fdc .fdc-r em{color:var(--brass)}
 </style>
 </head>
+
+<style>
+/* Report Card (grades) */
+.card.wl.grd{margin-top:0}
+.grd-hero .hero-t{font-size:72px;white-space:nowrap}
+.grd-hero .eyebrow2{font-size:14.5px;letter-spacing:.14em;white-space:nowrap;display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px}
+.grd-hero .hero-v span.u{font-size:14px}
+.grd-hero{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+.grd-hero .cdn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.grd-hero .cdn div{min-width:0;padding:18px 6px 12px;border-radius:14px}
+.grd-hero .cdn b{font-size:54px;white-space:nowrap}
+.grd-hero .cdn b.br{color:var(--brass-2);text-shadow:0 0 18px rgba(201,162,39,.45),0 0 2px rgba(230,198,90,.6)}
+.grd-hero .cdn span{font-size:11px}
+.grd .wl-h .pill.brass{margin-left:0}
+.grd-k{display:flex;gap:28px;flex-wrap:wrap;margin:10px 0 2px}
+.grd-k .dpn span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:var(--cond)}
+.grd-k .dpn b.br{color:var(--brass-2);text-shadow:none}
+.grd-na{margin:12px 0 2px;font-size:13px;color:var(--text-2);line-height:1.8}
+.grd-na .pill{margin:0 4px 0 0}
+.grd .wl-r .heat{width:120px;height:6px;margin:0;flex:none}
+.grd .wl-r .heat.ok i{background:linear-gradient(90deg,#9a7a10,#c9a227,#e6c65a);box-shadow:none}
+.grd .wl-d{min-width:76px;text-align:right}
+.grd .wl-d.ok{color:var(--brass-2)}
+.grd .gl{flex:none;width:36px;text-align:center}
+.grd-pend{font-size:13px;color:var(--muted);margin-top:14px}
+.grd .wl-r.empty{color:var(--muted);font-size:14px;padding:14px 0}
+@media (max-width:900px){.grd-hero{grid-template-columns:1fr}.grd-hero .cdn{grid-template-columns:repeat(2,minmax(0,1fr))}.grd-hero .hero-t{white-space:normal;font-size:52px}.grd-hero .eyebrow2{white-space:normal}}
+@media (max-width:640px){.grd-hero .hero-t{font-size:44px}.grd-hero .cdn b{font-size:40px}}
+@media (max-width:640px){.grd .wl-r .heat{width:100%;order:9;margin-left:0}}
+</style>
 <body>
 
 <aside class="side" id="side" aria-label="Sidebar">
@@ -2021,6 +2067,7 @@ function overview(){
   <header class="topbar ov-top"><div class="tb-t"><div class="h1row">${svg('flame')}<h1>${F.meta.title}</h1></div>
     <div class="tag">${F.meta.tagline} <b>${F.meta.taglineRef}</b></div></div>
     <div class="ov-date" id="todayLbl">${esc(fmtLong(now))}</div></header>
+  ${gradesCard()}
   ${dailyCard()}
   <div class="hero">
     <div class="hero-l">
