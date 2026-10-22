@@ -279,7 +279,7 @@ function gradesCard(){const c=GRADES.courses||[],has=c.length>0,
  need=c.filter(x=>x.p<80||x.m>0||x.l>0),ab=c.filter(x=>'AB'.includes(letter(x.p))).length;
  const pill=l=>'AB'.includes(l)?'brass':l==='C'?'neutral':'ember', D='—';
  return `<div class="hero grd-hero"><div class="hero-l"><div class="eyebrow2">Liberty University Online Academy · 8th Grade</div><div class="hero-t">Report Card</div><div class="hero-v"><b>Fall Semester · Current</b>${has&&GRADES.updated?`<span class="u">updated ${GRADES.updated}</span>`:''}</div>${has?'':'<div class="grd-pend">Grades sync pending</div>'}</div>
- <div class="hero-r"><div class="cdn"><div><b class="br">${has?gpa.toFixed(2):D}</b><span>GPA</span></div><div><b class="br">${has?pct1(avg)+'%':D}</b><span>Average</span></div><div><b>${has?miss:D}</b><span>Missing / late</span></div><div><b class="br">${has?ab+'/'+c.length:D}</b><span>A/B classes</span></div></div></div></div>
+ <div class="hero-r"><div class="cdn"><div><b class="br">${has?gpa.toFixed(2):D}</b><span>GPA</span></div><div><b class="br">${has?pct1(avg)+'<small>%</small>':D}</b><span>Average</span></div><div><b>${has?miss:D}</b><span>Missing / late</span></div><div><b class="br">${has?ab+'/'+c.length:D}</b><span>A/B classes</span></div></div></div></div>
  <div class="card wl grd">${need.length?`<div class="grd-na"><em class="ovtag">Needs attention</em> ${need.map(x=>`<span class="pill ember">${x.n} · ${pct1(x.p)}% ${letter(x.p)}${x.m?` · ${x.m} missing`:''}${x.l?` · ${x.l} late`:''}</span>`).join('')}</div>`:''}
  <div class="wl-wk">Courses</div>
  ${has?c.map(x=>{const l=letter(x.p),ok='AB'.includes(l);return `<div class="wl-r"><span class="pill ${pill(l)} gl">${l}</span><div class="wl-t"><b>${x.n}</b><span>${x.m||x.l?`${x.m?`<em class="ovtag">${x.m} missing</em>`:''}${x.l?`<em class="ovtag">${x.l} late</em>`:''}`:'No missing or late work'}</span></div><div class="heat ${ok?'ok':''}"><i style="width:${x.p}%"></i></div><span class="wl-d ${ok?'ok':'late'}">${pct1(x.p)}%</span></div>`}).join(''):'<div class="wl-r empty">Grades will appear here once synced from Liberty.</div>'}</div>`}
@@ -1632,7 +1632,8 @@ footer{text-align:center}
 .grd-hero{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
 .grd-hero .cdn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
 .grd-hero .cdn div{min-width:0;padding:18px 6px 12px;border-radius:14px}
-.grd-hero .cdn b{font-size:46px;white-space:nowrap}
+.grd-hero .cdn b{font-size:50px;white-space:nowrap}
+.grd-hero .cdn b small{font-size:.5em;margin-left:1px}
 .grd-hero .cdn b.br{color:var(--brass-2);text-shadow:0 0 18px rgba(201,162,39,.45),0 0 2px rgba(230,198,90,.6)}
 .grd-hero .cdn span{font-size:11px}
 .grd .wl-h .pill.brass{margin-left:0}
