@@ -267,19 +267,22 @@ const FORGE = {
 </script>
 
 <script>
-/* Report Card — fill with real Liberty grades: courses:[{n:'Bible 8',p:96,m:0}, ...]  (p = %, m = missing/late count); updated: 'Thu Oct 22 · 10:45 AM ET' */
-const GRADES={updated:null,courses:[]};
+/* Report Card — real Liberty grades from Canvas. courses:[{n, p (= %), m (= missing count), l (= late count)}] */
+const GRADES={updated:'Thu Oct 22 · 11:58 AM ET',courses:[
+{n:'8th Grade Bible',p:95.69,m:0,l:0},{n:'8th Grade Language Arts',p:95.95,m:0,l:1},{n:'Physical Science',p:92.33,m:0,l:1},
+{n:'Pre-Algebra',p:90.35,m:0,l:0},{n:'World Geography',p:92.09,m:0,l:1}]};
+const pct1=v=>(Math.round(v*10+1e-6)/10).toFixed(1);
 const letter=p=>p>=90?'A':p>=80?'B':p>=70?'C':p>=60?'D':'F';
 function gradesCard(){const c=GRADES.courses||[],has=c.length>0,
  avg=has?c.reduce((s,x)=>s+x.p,0)/c.length:0,
- gpa=has?c.reduce((s,x)=>s+({A:4,B:3,C:2,D:1,F:0})[letter(x.p)],0)/c.length:0,miss=c.reduce((s,x)=>s+x.m,0),
- need=c.filter(x=>x.p<80||x.m>0),ab=c.filter(x=>'AB'.includes(letter(x.p))).length;
+ gpa=has?c.reduce((s,x)=>s+({A:4,B:3,C:2,D:1,F:0})[letter(x.p)],0)/c.length:0,miss=c.reduce((s,x)=>s+(x.m||0)+(x.l||0),0),
+ need=c.filter(x=>x.p<80||x.m>0||x.l>0),ab=c.filter(x=>'AB'.includes(letter(x.p))).length;
  const pill=l=>'AB'.includes(l)?'brass':l==='C'?'neutral':'ember', D='—';
  return `<div class="hero grd-hero"><div class="hero-l"><div class="eyebrow2">Liberty University Online Academy · 8th Grade</div><div class="hero-t">Report Card</div><div class="hero-v"><b>Fall Semester · Current</b>${has&&GRADES.updated?`<span class="u">updated ${GRADES.updated}</span>`:''}</div>${has?'':'<div class="grd-pend">Grades sync pending</div>'}</div>
- <div class="hero-r"><div class="cdn"><div><b class="br">${has?gpa.toFixed(2):D}</b><span>GPA</span></div><div><b class="br">${has?avg.toFixed(0)+'%':D}</b><span>Average</span></div><div><b>${has?miss:D}</b><span>Missing / late</span></div><div><b class="br">${has?ab+'/'+c.length:D}</b><span>A/B classes</span></div></div></div></div>
- <div class="card wl grd">${need.length?`<div class="grd-na"><em class="ovtag">Needs attention</em> ${need.map(x=>`<span class="pill ember">${x.n} · ${x.p}% ${letter(x.p)}${x.m?` · ${x.m} missing`:''}</span>`).join('')}</div>`:''}
+ <div class="hero-r"><div class="cdn"><div><b class="br">${has?gpa.toFixed(2):D}</b><span>GPA</span></div><div><b class="br">${has?pct1(avg)+'%':D}</b><span>Average</span></div><div><b>${has?miss:D}</b><span>Missing / late</span></div><div><b class="br">${has?ab+'/'+c.length:D}</b><span>A/B classes</span></div></div></div></div>
+ <div class="card wl grd">${need.length?`<div class="grd-na"><em class="ovtag">Needs attention</em> ${need.map(x=>`<span class="pill ember">${x.n} · ${pct1(x.p)}% ${letter(x.p)}${x.m?` · ${x.m} missing`:''}${x.l?` · ${x.l} late`:''}</span>`).join('')}</div>`:''}
  <div class="wl-wk">Courses</div>
- ${has?c.map(x=>{const l=letter(x.p),ok='AB'.includes(l);return `<div class="wl-r"><span class="pill ${pill(l)} gl">${l}</span><div class="wl-t"><b>${x.n}</b><span>${x.m?`<em class="ovtag">${x.m} missing</em>`:'No missing work'}</span></div><div class="heat ${ok?'ok':''}"><i style="width:${x.p}%"></i></div><span class="wl-d ${ok?'ok':'late'}">${x.p}%</span></div>`}).join(''):'<div class="wl-r empty">Grades will appear here once synced from Liberty.</div>'}</div>`}
+ ${has?c.map(x=>{const l=letter(x.p),ok='AB'.includes(l);return `<div class="wl-r"><span class="pill ${pill(l)} gl">${l}</span><div class="wl-t"><b>${x.n}</b><span>${x.m||x.l?`${x.m?`<em class="ovtag">${x.m} missing</em>`:''}${x.l?`<em class="ovtag">${x.l} late</em>`:''}`:'No missing or late work'}</span></div><div class="heat ${ok?'ok':''}"><i style="width:${x.p}%"></i></div><span class="wl-d ${ok?'ok':'late'}">${pct1(x.p)}%</span></div>`}).join(''):'<div class="wl-r empty">Grades will appear here once synced from Liberty.</div>'}</div>`}
 </script>
 <!-- base: copied from COO Command Center src/03_css.html (layout, cards, nav, tables, responsive) -->
 <style>
