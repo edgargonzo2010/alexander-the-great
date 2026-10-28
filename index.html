@@ -1625,10 +1625,6 @@ footer{text-align:center}
 
 <style>
 /* Report Card (grades) */
-.urg-a{display:flex;flex-direction:column;gap:6px;margin:0 0 14px;padding:16px 20px;border-radius:14px;border:1px solid #c0392b;background:linear-gradient(90deg,rgba(192,57,43,.22),rgba(192,57,43,.06));box-shadow:0 0 18px rgba(192,57,43,.25)}
-.urg-a .ovtag{align-self:flex-start;background:#c0392b;color:#fff;padding:2px 8px;border-radius:6px;font-style:normal;font-family:var(--cond);letter-spacing:.08em;text-transform:uppercase;font-size:12px}
-.urg-a b{font-size:18px;line-height:1.35;color:var(--text)}
-.urg-a span{font-size:13px;color:var(--text-2)}
 .card.wl.grd{margin-top:0}
 .grd-hero .hero-t{font-size:72px;white-space:nowrap}
 .grd-hero .eyebrow2{font-size:14.5px;letter-spacing:.14em;white-space:nowrap;display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px}
@@ -2075,7 +2071,6 @@ function overview(){
   <header class="topbar ov-top"><div class="tb-t"><div class="h1row">${svg('flame')}<h1>${F.meta.title}</h1></div>
     <div class="tag">${F.meta.tagline} <b>${F.meta.taglineRef}</b></div></div>
     <div class="ov-date" id="todayLbl">${esc(fmtLong(now))}</div></header>
-  <div class="urg-a"><em class="ovtag">Urgent · Today</em><b>Message your Language Arts teacher today about making up 2.9.W Dual Interpretations (zero, Tier 3) and submit the make-up.</b><span>A single Tier 3 zero can mean an FN (failure for non-completion). Use your Canvas Inbox → LAN 0800.</span></div>
   ${gradesCard()}
   ${dailyCard()}
   <div class="hero">
