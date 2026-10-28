@@ -268,9 +268,9 @@ const FORGE = {
 
 <script>
 /* Report Card — real Liberty grades from Canvas. courses:[{n, p (= %), m (= missing count), l (= late count)}] */
-const GRADES={updated:'Tue Oct 27 · 1:13 PM ET',courses:[
-{n:'8th Grade Bible',p:95.42,m:0,l:1},{n:'8th Grade Language Arts',p:85.7,m:0,l:2},{n:'Physical Science',p:92.41,m:0,l:1},
-{n:'Pre-Algebra',p:90.12,m:0,l:1},{n:'World Geography',p:92.35,m:0,l:1}]};
+const GRADES={updated:'Wed Oct 28 · 1:10 PM ET',courses:[
+{n:'8th Grade Bible',p:95.42,m:0,l:1},{n:'8th Grade Language Arts',p:94.5,m:0,l:2},{n:'Physical Science',p:92.51,m:0,l:1},
+{n:'Pre-Algebra',p:90.16,m:0,l:1},{n:'World Geography',p:92.32,m:0,l:2}]};
 const pct1=v=>(Math.round(v*10+1e-6)/10).toFixed(1);
 const letter=p=>p>=90?'A':p>=80?'B':p>=70?'C':p>=60?'D':'F';
 function gradesCard(){const c=GRADES.courses||[],has=c.length>0,
